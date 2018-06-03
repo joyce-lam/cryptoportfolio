@@ -1,0 +1,160 @@
+/*.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+*/
+
+/*.icons {
+  padding: 10px;
+  height: 80px;
+  width: 80px;
+}*/
+
+.App {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #41A3C4;
+  overflow-x: hidden;
+  transition: 0.5s;
+  /*padding-top: 60px;*/
+}
+
+#x-icon {
+  float: right;
+  margin-top: 20px;
+  margin-right: 25px;
+}
+
+#user-icon {
+  padding: 20px;
+  margin-left: 60px;
+  margin-top: 50px;
+  transition: 0.3s;
+}
+
+#menu-icon {
+  padding: 10px;
+  color: #000000;
+}
+
+.sidenav #x-icon:hover {
+  color: #f1f1f1;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #000000;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+
+
+#individual-coin {
+  position: relative;
+  /*display: block;*/
+  
+  margin: 50px 120px 50px 120px;
+  padding: 30px;
+  text-align: left;
+  border: 2px ridge #9BD9FF;
+  border-radius: 8px;
+  height: 100%;
+}
+
+#coin-name {
+  font-size: 40px;
+  margin: -50px 10px 50px 10px;
+  text-align: center;
+  /*border: 2px solid #9BD9FF;*/
+  border-radius: 8px;
+  background-color: #CFFFF5;
+  color: #000000;
+}
+
+#coin-card {
+  border: 2px solid #9BD9FF;
+  border-radius: 8px;
+  /*width: 20%;*/
+  padding: 10px;
+  margin: 5px 0px 50px 0px;
+  font-size: 20px;
+}
+
+#coin-graph {
+/*  position: absolute;
+  display: block;
+  /*float: right;*/
+  /*top: 0;*/
+  /*right: 0;*/
+
+  margin: 0px 0px 20px 20px;
+  text-align: center;
+  
+}
+
+/*#linechart svg {
+  width: 700px;
+  height: 350px;
+}*/
+
+.btn-group {
+  float: right;
+  margin-right: 2 0px;
+}
+
+
+
+
+#summary-card {
+  margin-top: 50px;
+  padding: 10px;
+}
+
+
+#summary-total {
+  margin-top: 50px;
+}
