@@ -93,6 +93,38 @@
 }
 
 
+.ReactTable {
+  width: auto;
+}
+
+.rt-th {
+  font-weight: 600;
+  font-size: 20px;
+  border: 2px solid #359AC3;
+  padding: 5px 0px 5px 0px;
+}
+
+
+.rt-tr{
+  font-size: 18px; 
+  border: 1px solid #359AC3;
+  height: 120%;
+}
+
+
+#table-section {
+  padding: 50px;
+}
+
+#table-head, #table-head2 {
+  text-align: center;
+  padding-bottom: 30px;
+  font-weight: 800;
+}
+
+
+
+
 #individual-coin {
   position: relative;
   /*display: block;*/
