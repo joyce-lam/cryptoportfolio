@@ -8,6 +8,7 @@ import {
 
 import Landing from "./Landing"
 import HomeSummary from "./HomeSummary"
+import CoinSummary from "./CoinSummary"
 
 
 class MainContainer extends Component {

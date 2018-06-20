@@ -54,6 +54,7 @@ class Landing extends Component {
 							<Icon size={28} icon={user} id="user-icon" />
 						</div>
 						<a href="/home">Home</a>
+						<a href="/coin">Coin</a>
 						
 					</div>
 					<div className="main" style={{marginLeft: this.state.marginLeft}}>
