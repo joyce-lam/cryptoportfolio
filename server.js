@@ -59,13 +59,13 @@ app.use(session({
 // var authRoutes = require("./routes/auth-routes");
 // app.use("/auth", authRoutes);
 
-// var apiRoutes = require("./routes/api-routes.js");
-// app.use("/", apiRoutes);
+var apiRoutes = require("./routes/api-routes.js");
+app.use("/api", apiRoutes);
 
 // var htmlRoutes = require("./routes/html-routes.js");
 // app.use("/", htmlRoutes);
 
-require("./routes/api-routes.js")(app);
+// require("./routes/api-routes.js")(app);
 
 require("./routes/html-routes.js")(app);
 

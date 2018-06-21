@@ -1,25 +1,27 @@
 var path = require("path");
 var express = require("express");
 
-module.exports = function(app) {
+const router = express.Router();
+
+router.get("/asdf", function(req, res) {
+	res.send("hello world");
+});
+
+module.exports = router;
+
+// module.exports = function(app) {
 
 
-    // app.use(express.static(path.join(__dirname, "../public")));
-
-
-
-
-    app.get("/", function(req, res) {
-        // res.sendFile(path.join(__dirname, "../public/index.html"));
-        res.render(index)
-    });
-
-    // app.get("*", function(req, res) {
-    //     res.sendFile(path.join(__dirname, "../public/index.html"));
+    // app.get('*', function(req, res) {
+    //     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
     // });
 
-    app.get("/home", function(req, res) {
-        // res.sendFile(path.join(__dirname, "../../home"));
-        res.render(index)
-    });
-};
+    // app.get('*', function(req, res) {
+    //     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    // });
+
+
+    // Error: ENOENT: no such file or directory, stat '/Users/JLam/Desktop/cryptoportfolio/routes/public/index.html'
+
+
+// };
