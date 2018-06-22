@@ -1,12 +1,15 @@
-var path = require("path");
-var express = require("express");
-// var db = require("../models");
-// const Op = db.Sequelize.Op;
+const express = require("express");
+const router = require("express").Router();
 
-const router = express.Router();
 
-// router.route("/:Userid/cryptocurrencies")
-// 	.get()
+
+const usersController = require("../../controllers/usersController");
+
+router.route("/:userId/cryptocurrencies")
+	.get(usersController.findAllCrypto)
+
+router.route("/:userId/cryptocurrencies_data/:coinArr/:shareArr")
+	.get(usersController.findAllCryptoData)
 
 
 

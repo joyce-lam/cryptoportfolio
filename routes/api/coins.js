@@ -1,8 +1,5 @@
+const express = require("express");
 const router = require("express").Router();
-var path = require("path");
-var express = require("express");
-var db = require("../../models");
-const Op = db.Sequelize.Op;
 
 const coinsController = require("../../controllers/coinsController");
 

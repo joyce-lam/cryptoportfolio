@@ -4,7 +4,7 @@ const rq = require("request-promise");
 
 module.exports = {
 	findPrice: function(req, res) {
-		//let req.params.symbol = "BTC"
+		
 		rq({
 			url: `https://min-api.cryptocompare.com/data/price?fsym=${req.params.symbol}&tsyms=USD`,
 			headers: {

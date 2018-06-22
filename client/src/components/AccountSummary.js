@@ -14,15 +14,15 @@ class AccountSummary extends Component {
 		
 		}
 
-		this.getUserInfo = this.getUserInfo.bind(this)
+		//this.getUserInfo = this.getUserInfo.bind(this)
 		
 	}
 
 
-	componentDidMount() {
-		this.getUserInfo()
-		// this.getAccountInfo()
-	}
+	// componentDidMount() {
+	// 	//this.getUserInfo()
+	// 	// this.getAccountInfo()
+	// }
 	// getUserId = () => {
     //     const cookie = document.cookie.split(";");
     //     console.log("cookie", cookie)
@@ -33,18 +33,18 @@ class AccountSummary extends Component {
     //     this.setState({ UserId: userID });
     // }
 
-    getUserInfo = () => {
-        fetch(`/api/users/${this.state.UserId}`, {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        }).then(response => {
-            console.log(response)
-            return response
-        })
-    }
+    // getUserInfo = () => {
+    //     fetch(`/api/users/${this.state.UserId}`, {
+    //         method: "GET",
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         },
+    //     }).then(response => {
+    //         console.log(response)
+    //         return response
+    //     })
+    // }
 
     
     // getAccountInfo = () => {

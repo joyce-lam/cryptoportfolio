@@ -98,8 +98,7 @@ getTop10AllData = (top10, fullNames) => {
 	      		
 	      		return dataArray
 
-			})
-			.catch(err => {
+			}).catch(err => {
 				console.log(err)
 			})
 
