@@ -84,7 +84,7 @@ class IndividualCoin extends Component {
 	// }
 
 	getPrice = (symbol) => {
-		API.getCoinPrice(symbol)
+		API.getCoinCurrentPrice(symbol)
 			.then(res => {
 				console.log(res)
 				return res
@@ -92,6 +92,7 @@ class IndividualCoin extends Component {
 				this.setState({
 					coinValue: res
 				})
+				return this.state.coinValue
 			}).catch(err => {
 				console.log(err)
 			})

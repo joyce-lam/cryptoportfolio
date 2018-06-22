@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 
 import { LineChart } from "react-easy-chart"
-import axios from "axios";
+import API from "../utils/API"
 
 class CoinGraph extends Component {
 	constructor(props) {
@@ -23,7 +23,7 @@ class CoinGraph extends Component {
 	}
 
 	componentDidMount() {
-		this.getHistoricalHour()
+		this.getHistoricalHour(this.state.coinSymbol, this.state.dateTimeRange)
 	}
 
 
@@ -37,7 +37,7 @@ class CoinGraph extends Component {
 
 	    // console.log(this.state.dateTimeRange)
 
-	    this.getHistoricalHour()
+	    this.getHistoricalHour(this.state.coinSymbol, this.state.dateTimeRange)
 	}
 
 
@@ -48,111 +48,121 @@ class CoinGraph extends Component {
 	      [name]: value
 	    });
 	    // console.log(this.state.dateTimeRange)
-	    this.getHistoricalDay()
+	    this.getHistoricalDay(this.state.coinSymbol, this.state.dateTimeRange)
 	}
 
+	getHistoricalHour = (symbol, time) => {
+		API.getCoinPastHour(symbol, time)
+			.then(res => {
+				console.log(res)
+				return res
+			}).then(res => {
+				this.setState({
+					linechartData: res
+				})
+				return this.state.linechartData
+			}).catch(err => { 
+				console.log(err)
+			})
+	}
 
+	getHistoricalDay = (symbol, time) => {
+		API.getCoinPastDay(symbol, time)
+			.then(res => {
+				console.log(res)
+				return res
+			}).then(res => {
+				this.setState({
+					linechartData: res
+				})
+				return this.state.linechartData
+			}).catch(err => {
+				console.log(err)
+			})
+	}
 
 	// getHistoricalHour() {
-		
-		
-	// 	console.log(this.state.coinSymbol, this.state.dateTimeRange)
-
-		
-
-	// 	axios.get(`/api/crypto/${this.state.coinSymbol}/${this.state.dateTimeRange}`)
-	// 	.then(res => {
-	// 		console.log(res)
-	// 	}).catch(err => {
-	// 		console.log(err)
-	// 	})
-		      		
-	// }
-
-
-
-	getHistoricalHour() {
-		fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${this.state.coinSymbol}&tsym=USD&limit=${this.state.dateTimeRange}`, {
-		      method: 'GET',
-		      headers: {
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json'
-		      },
-		    }).then(response => {
-	      			response.json()
-	      		.then(text => {
-		      		console.log(text.Data)
+	// 	fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${this.state.coinSymbol}&tsym=USD&limit=${this.state.dateTimeRange}`, {
+	// 	      method: 'GET',
+	// 	      headers: {
+	// 	        'Accept': 'application/json',
+	// 	        'Content-Type': 'application/json'
+	// 	      },
+	// 	    }).then(response => {
+	//       			response.json()
+	//       		.then(text => {
+	// 	      		console.log(text.Data)
 		      		
 
-		      		let priceData = text.Data
+	// 	      		let priceData = text.Data
 
-					let dataArray = []
-		      		priceData.map(singleData => {
-		      			let obj = {}
-		      			let date = new Date(singleData.time*1000)
-		      			let hours = date.getHours()
-		      			// console.log(hours)
-		      			obj["x"] = hours + ":00"
-		      			obj["y"] = singleData.high
-		      			dataArray.push(obj)
-		      			// console.log(dataArray)
-		      		})
+	// 				let dataArray = []
+	// 	      		priceData.map(singleData => {
+	// 	      			let obj = {}
+	// 	      			let date = new Date(singleData.time*1000)
+	// 	      			let hours = date.getHours()
+	// 	      			// console.log(hours)
+	// 	      			obj["x"] = hours + ":00"
+	// 	      			obj["y"] = singleData.high
+	// 	      			dataArray.push(obj)
+	// 	      			// console.log(dataArray)
+	// 	      		})
 
-		  	 		this.setState({
-		      			linechartData: [dataArray]
-		      		})
+	// 	  	 		this.setState({
+	// 	      			linechartData: [dataArray]
+	// 	      		})
 
-		      		console.log(this.state.linechartData)
-		      	})
-		      })
-		      .catch(error => {
-		      	console.log(error)
-		      })
-			}
+	// 	      		console.log(this.state.linechartData)
+	// 	      	})
+	// 	      })
+	// 	      .catch(error => {
+	// 	      	console.log(error)
+	// 	      })
+	// 		}
 
 
-	getHistoricalDay() {
+	// getHistoricalDay() {
 		
-		// console.log( this.state.coinSymbol, this.state.dateTimeRange)
+	// 	// console.log( this.state.coinSymbol, this.state.dateTimeRange)
 
-		fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${this.state.coinSymbol}&tsym=USD&limit=${this.state.dateTimeRange}`, {
-		      method: 'GET',
-		      headers: {
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json'
-		      },
-		    }).then(response => {
-	      			response.json()
-			      	.then(text => {
-			      		// console.log(text)
+	// 	fetch(`https://min-api.cryptocompare.com/data/histoday?fsym=${this.state.coinSymbol}&tsym=USD&limit=${this.state.dateTimeRange}`, {
+	// 	      method: 'GET',
+	// 	      headers: {
+	// 	        'Accept': 'application/json',
+	// 	        'Content-Type': 'application/json'
+	// 	      },
+	// 	    }).then(response => {
+	//       			response.json()
+	// 		      	.then(text => {
+	// 		      		// console.log(text)
 
-		      		let priceData = text.Data
+	// 	      		let priceData = text.Data
 
-					let dataArray = []
-		      		priceData.map(singleData => {
-		      			let obj = {}
-		      			let date = new Date(singleData.time*1000)
-		      			let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-		      			let month = months[date.getMonth()]
-		      			let day = date.getDate()
-		      			// console.log(month, day)
-		      			obj["x"] = `${month} ${day}`
-		      			obj["y"] = singleData.high
-		      			dataArray.push(obj)
-		      			// console.log(dataArray)
-		      		})
+	// 				let dataArray = []
+	// 	      		priceData.map(singleData => {
+	// 	      			let obj = {}
+	// 	      			let date = new Date(singleData.time*1000)
+	// 	      			let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+	// 	      			let month = months[date.getMonth()]
+	// 	      			let day = date.getDate()
+	// 	      			// console.log(month, day)
+	// 	      			obj["x"] = `${month} ${day}`
+	// 	      			obj["y"] = singleData.high
+	// 	      			dataArray.push(obj)
+	// 	      			// console.log(dataArray)
+	// 	      		})
 
-		  	 		this.setState({
-		      			linechartData: [dataArray]
-		      		})
+	// 	  	 		this.setState({
+	// 	      			linechartData: [dataArray]
+	// 	      		})
 
-		      		// console.log(this.state.linechartData)
-		      	})
-		      })
-			   .catch(error => {
-		      	console.log(error)
-		      })
-			}
+	// 	      		// console.log(this.state.linechartData)
+	// 	      	})
+	// 	      })
+	// 		   .catch(error => {
+	// 	      	console.log(error)
+	// 	      })
+	// 		}
 
 	render() {
 

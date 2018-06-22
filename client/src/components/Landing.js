@@ -95,6 +95,7 @@ class Landing extends Component {
 				this.setState({
 					tableData: res
 				})
+				return this.state.tableData
 			}).catch(err => {
 				console.log(err)
 			})

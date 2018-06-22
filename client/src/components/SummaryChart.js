@@ -44,11 +44,7 @@ class SummaryChart extends Component {
 		this.getAccountInfo("1")
 		// this.getUserCoinData("1")
 	}
-	// var config = [
-	// 	    {color: '#aaac84'},
-	// 	    {color: '#dce7c5'},
-	// 	    {color: '#e3a51a'}
-	// ]
+	
 
 	// getAccountInfo = () => {
  //    	fetch(`/api/users/${this.state.UserId}/cryptocurrencies`, {
@@ -114,6 +110,7 @@ class SummaryChart extends Component {
 			    shareArr = shareArr.join()
 			    this.getUserCoinData(userId, coinArr, shareArr)
 			    return userCryptoArrayWithShares
+			   
 
 		    }).then(res => {
 		    	this.setState({
@@ -128,14 +125,7 @@ class SummaryChart extends Component {
     }
 
 
-
-
-
-
-
     getUserCoinData = (userId, coinArr, shareArr) => {
-
-    	
 
     	API.getUserCryptoData(userId, coinArr, shareArr)
     		.then(res => {
@@ -146,6 +136,7 @@ class SummaryChart extends Component {
     				piechartData: res
     			})
     			console.log(res)
+    			console.log(this.state.piechartData)
     		}).catch(err => {
     			console.log(err)
     		})
