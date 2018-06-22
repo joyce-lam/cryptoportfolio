@@ -4,6 +4,8 @@ import CoinName from "./CoinName"
 import CoinCard from "./CoinCard"
 import CoinGraph from "./CoinGraph"
 
+import API from "../utils/API"
+
 
 class IndividualCoin extends Component {
 	constructor(props) {
@@ -22,7 +24,7 @@ class IndividualCoin extends Component {
 
 	componentDidMount() {
 
-		this.getPrice()
+		this.getPrice("BTC")
 	}
 
 
@@ -55,32 +57,45 @@ class IndividualCoin extends Component {
 	// }
 
 
-	getPrice = () => {
-		fetch(`https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD`, {
-		      method: 'GET',
-		      headers: {
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json'
-		      },
-		    })
-	    .then(response => {
-	    	console.log(response)
-	      	response.json()
-	      	.then(text => {
-	      		console.log(text)
+	// getPrice = () => {
+	// 	fetch(`https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD`, {
+	// 	      method: 'GET',
+	// 	      headers: {
+	// 	        'Accept': 'application/json',
+	// 	        'Content-Type': 'application/json'
+	// 	      },
+	// 	    })
+	//     .then(response => {
+	//     	console.log(response)
+	//       	response.json()
+	//       	.then(text => {
+	//       		console.log(text)
 
-	      		let priceData = text["USD"]
-	      		this.setState({
-	      			coinValue: priceData
-	      		})
+	//       		let priceData = text["USD"]
+	//       		this.setState({
+	//       			coinValue: priceData
+	//       		})
    
-      	})
-      })
-	   .catch(error => {
-      	console.log(error)
-      })
-	}
+ //      	})
+ //      })
+	//    .catch(error => {
+ //      	console.log(error)
+ //      })
+	// }
 
+	getPrice = (symbol) => {
+		API.getCoinPrice(symbol)
+			.then(res => {
+				console.log(res)
+				return res
+			}).then(res => {
+				this.setState({
+					coinValue: res
+				})
+			}).catch(err => {
+				console.log(err)
+			})
+	}
 
 	render() {
 

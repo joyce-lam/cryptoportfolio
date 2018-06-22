@@ -4,6 +4,7 @@ var cookieParser = require("cookie-parser");
 var session = require("express-session");
 // var passport = require("passport");
 // var passportSetup = require("./config/passport-setup");
+const routes = require("./routes");
 require("dotenv").config();
 
 var PORT = process.env.PORT || 5000;
@@ -13,7 +14,7 @@ var app = express();
 var db = require("./models");
 
 // Serve static content for the app from the "public" directory in the application directory.
-// app.use(express.static("./client/build"));
+app.use(express.static("./client/build"));
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -59,15 +60,17 @@ app.use(session({
 // var authRoutes = require("./routes/auth-routes");
 // app.use("/auth", authRoutes);
 
-var apiRoutes = require("./routes/api-routes.js");
-app.use("/api", apiRoutes);
+//var apiRoutes = require("./routes/api-routes.js");
+//app.use("/api", apiRoutes);
 
 // var htmlRoutes = require("./routes/html-routes.js");
 // app.use("/", htmlRoutes);
 
 // require("./routes/api-routes.js")(app);
 
-require("./routes/html-routes.js")(app);
+//require("./routes/html-routes.js")(app);
+
+app.use(routes)
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================

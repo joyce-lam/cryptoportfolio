@@ -7,7 +7,7 @@ import {x} from 'react-icons-kit/feather/x'
 
 import IndividualCoin from "./IndividualCoin"
 
-class Landing extends Component {
+class CoinSummary extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -68,4 +68,4 @@ class Landing extends Component {
 	}
 }
 
-export default Landing
+export default CoinSummary

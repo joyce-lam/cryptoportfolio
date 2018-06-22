@@ -7,6 +7,8 @@ import {x} from 'react-icons-kit/feather/x'
 
 import ReactTable from "react-table"
 
+import API from "../utils/API"
+
 
 // import IndividualCoin from "./IndividualCoin"
 
@@ -24,14 +26,11 @@ class Landing extends Component {
 
 		this.handleOpenClick = this.handleOpenClick.bind(this)
 		this.handleCloseClick = this.handleCloseClick.bind(this)
-		this.getTop10By24HVol = this.getTop10By24HVol.bind(this)
-		this.getTop10AllData = this.getTop10AllData.bind(this)
+		this.getTableData = this.getTableData.bind(this)
 	}
 
 	componentDidMount() {
-		this.getTop10By24HVol()
-
-
+		this.getTableData()
 	}
 
 
@@ -53,95 +52,91 @@ class Landing extends Component {
 	}
 
 
-	getTop10By24HVol = () => {
-		fetch(`https://min-api.cryptocompare.com/data/top/totalvol?limit=10&tsym=USD`, {
-		      method: 'GET',
-		      headers: {
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json'
-		      },
-		    })
-	    .then(response => {
-	    	console.log(response)
-	      	response.json()
-	    .then(text => {
-      		console.log(text.Data)
+	// getTop10By24HVol = () => {
+	// 	fetch(`https://min-api.cryptocompare.com/data/top/totalvol?limit=10&tsym=USD`, {
+	// 	      method: 'GET',
+	// 	      headers: {
+	// 	        'Accept': 'application/json',
+	// 	        'Content-Type': 'application/json'
+	// 	      },
+	// 	}).then(response => {
+	//     	console.log(response)
+	//       	return response.json()
+	//     }).then(res => {
+ //      		console.log(res.Data)
       		
       		
-      		let top10 = []
-      		let top10FullName = []
-      		text.Data.map(topCoinData => {
-      			top10.push(topCoinData.CoinInfo.Name)
-      			top10FullName.push(topCoinData.CoinInfo.FullName)
-      		})
+ //      		let top10 = []
+ //      		let top10FullName = []
+ //      		res.Data.forEach(topCoinData => {
+ //      			top10.push(topCoinData.CoinInfo.Name)
+ //      			top10FullName.push(topCoinData.CoinInfo.FullName)
+ //      		})
 
-      		top10 = top10.join()
-      		this.setState({
-      			top10: top10,
-      			top10FullName: top10FullName
-      		})
+ //      		return this.getTop10AllData(top10, top10FullName)
+ //      	}).then(data => {
+ //      		console.log(data)
+ //      		this.setState({
+ //      			tableData: data
+ //      		})
+      		
+	//    	}).catch(error => {
+ //      		console.log(error)
+ //      	})
+	// }
 
-	      })
-		}).then(() => {
-			console.log(this.state.top10, this.state.top10FullName)
-			this.getTop10AllData()
 
-		})
-	   .catch(error => {
-      	console.log(error)
-      })
+	getTableData = () => {
+		API.getTop10Data()
+			.then(res => {
+				console.log(res)
+				return res
+			}).then(res => {
+				this.setState({
+					tableData: res
+				})
+			}).catch(err => {
+				console.log(err)
+			})
 	}
 
-	getTop10AllData = () => {
-		fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${this.state.top10}&tsyms=USD`, {
-		      method: 'GET',
-		      headers: {
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json'
-		      },
-		    })
-	    .then(response => {
-	    	console.log(response)
-	      	response.json()
-	      	.then(text => {
-	      		console.log(text.DISPLAY)
-	      		// console.log(text.DISPLAY.BTC)
+	// getTop10AllData = (top10, fullNames) => {
+	// 	let top10str = top10.join()
 
-	      		let dataArray = []
-	      		
-	      		let top10data = this.state.top10
-	      		top10data = top10data.split(",")
-	      		console.log(top10data)
+	// 	return fetch(`https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${top10str}&tsyms=USD`, {
+	// 	      method: 'GET',
+	// 	      headers: {
+	// 	        'Accept': 'application/json',
+	// 	        'Content-Type': 'application/json'
+	// 	      },
+	// 	}).then(response => {
+	//     	console.log(response)
+	//       	return response.json()
+	//     }).then(res => {
+ //      		console.log(res.DISPLAY)
 
-	      		let ind = 0
-	      		let fullNames = this.state.top10FullName
-	      		top10data.map(one => {
-	      			let dataObj = {}
-	      			dataObj["fullName"] = fullNames[ind]
-	      			dataObj["cryptoName"] = one
-	      			dataObj["price"] = text.DISPLAY[one].USD.PRICE
-	      			dataObj["change24H"] = text.DISPLAY[one].USD.CHANGE24HOUR
-	      			dataObj["change24Hpct"] = text.DISPLAY[one].USD.CHANGEPCT24HOUR
-	      			dataObj["vol24H"] = text.DISPLAY[one].USD.VOLUME24HOURTO
-	      			dataObj["marketCap"] = text.DISPLAY[one].USD.MKTCAP
-	      			ind ++
-	      			dataArray.push(dataObj)
-	      		})
-	      		
-	      		console.log(dataArray)
-	      		this.setState({
-	      			tableData: dataArray
-	      		})
-	      		
-   				console.log(this.state.tableData)
-	      	})
-	      		
-	     })
-	    .catch(error => {
-      		console.log(error)
-      	})
+ //      		let dataArray = []
+      		
+ //      		top10.forEach((one, ind) => {
+ //      			let dataObj = {}
+ //      			dataObj["fullName"] = fullNames[ind]
+ //      			dataObj["cryptoName"] = one
+ //      			dataObj["price"] = res.DISPLAY[one].USD.PRICE
+ //      			dataObj["change24H"] = res.DISPLAY[one].USD.CHANGE24HOUR
+ //      			dataObj["change24Hpct"] = res.DISPLAY[one].USD.CHANGEPCT24HOUR
+ //      			dataObj["vol24H"] = res.DISPLAY[one].USD.VOLUME24HOUR
+ //      			dataObj["marketCap"] = res.DISPLAY[one].USD.MKTCAP
+ //      			dataArray.push(dataObj)
+ //      		})
 
-	}
+ //      		console.log(dataArray)
+      		
+ //      		return dataArray
+ //      	}).catch(error => {
+ //      		console.log(error)
+ //      	})
+
+	// }
 
 	render() {
 

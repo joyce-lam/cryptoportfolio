@@ -8,16 +8,20 @@ class AccountSummary extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			UserId: "",
-			totalAmount: 1000000000000
+			UserId: 1,
+			totalAmount: 1000000000000,
+			userCoins: []
 		
 		}
-		this.getAccountInfo = this.getAccountInfo.bind(this)
+
+		this.getUserInfo = this.getUserInfo.bind(this)
+		
 	}
 
 
 	componentDidMount() {
-		this.getAccountInfo()
+		this.getUserInfo()
+		// this.getAccountInfo()
 	}
 	// getUserId = () => {
     //     const cookie = document.cookie.split(";");
@@ -29,20 +33,8 @@ class AccountSummary extends Component {
     //     this.setState({ UserId: userID });
     // }
 
-    // getAccountInfo = () => {
-    //     fetch(`/api/accountsummary/${this.state.UserId}`, {
-    //         method: "GET",
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         },
-    //     }).then(response => {
-    //         console.log(response)
-    //     })
-    // }
-
-    getAccountInfo = () => {
-        fetch(`/api/accountsummary/1`, {
+    getUserInfo = () => {
+        fetch(`/api/users/${this.state.UserId}`, {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
@@ -50,10 +42,44 @@ class AccountSummary extends Component {
             },
         }).then(response => {
             console.log(response)
+            return response
         })
     }
 
+    
+    // getAccountInfo = () => {
+    // 	fetch(`/api/users/${this.state.UserId}/cryptocurrencies`, {
+    // 		method: "GET",
+    // 		headers: {
+    // 			'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    // 		},
+    // 	}).then(response => {
+    // 		console.log(response)
+    // 		return response.json()
+	   //  }).then(res => {
+
+    // 		var userCryptoArray = []
+    // 		res.map(coin => {
+    // 			let coinObj = {}
+    // 			coinObj[coin.CryptocurrencyId] = coin.share
+    // 			userCryptoArray.push(coinObj)
+    // 		})
+
+    // 		console.log(userCryptoArray)
+    // 		return userCryptoArray
+	    	
+	   //  }).then(data => {
+	   //  	this.setState({
+	   //  		userCoins: data
+	   //  	})
+	   //  	console.log(this.state.userCoins)
+	   //  	return this.state.userCoins
+	   //  })
+    // }
 	
+
+
 
 
 	render() {
