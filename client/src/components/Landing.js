@@ -1,31 +1,18 @@
 import React, { Component } from "react"
 
-import { Icon } from 'react-icons-kit'
-import {menu} from 'react-icons-kit/icomoon/menu'
-import {user} from 'react-icons-kit/icomoon/user'
-import {x} from 'react-icons-kit/feather/x'
-
 import ReactTable from "react-table"
 
 import API from "../utils/API"
-
-
-// import IndividualCoin from "./IndividualCoin"
 
 class Landing extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			selected: false,
-			width: 0,
-			marginLeft: 0,
 			tableData: [],
 			top10: [],
 			top10FullName: []
 		}
 
-		this.handleOpenClick = this.handleOpenClick.bind(this)
-		this.handleCloseClick = this.handleCloseClick.bind(this)
 		this.getTableData = this.getTableData.bind(this)
 	}
 
@@ -34,22 +21,22 @@ class Landing extends Component {
 	}
 
 
-	handleOpenClick() {
-		this.setState ({
-			selected: true,
-			width: 200,
-			marginLeft: 200
-		})
-	}
+	// handleOpenClick() {
+	// 	this.setState ({
+	// 		selected: true,
+	// 		width: 200,
+	// 		marginLeft: 200
+	// 	})
+	// }
 
-	handleCloseClick() {
-		this.setState ({
-			selected: true,
-			width: 0,
-			marginLeft: 0
-		})
-		console.log(this.props)
-	}
+	// handleCloseClick() {
+	// 	this.setState ({
+	// 		selected: true,
+	// 		width: 0,
+	// 		marginLeft: 0
+	// 	})
+	// 	console.log(this.props)
+	// }
 
 
 	// getTop10By24HVol = () => {
@@ -179,21 +166,22 @@ class Landing extends Component {
 		}]
 
 
+		// <div className="sidenav" style={{width:this.state.width}}>
+		// 	<div  id="x-icon" >
+		// 		<Icon size={28} icon={x} onClick={this.handleCloseClick} />
+		// 	</div>
+		// 	<div>
+		// 		<Icon size={28} icon={user} id="user-icon" />
+		// 	</div>
+		// 	<a href="/home">Home</a>
+			
+		// </div>
+		//<Icon size={32} icon={menu} id="menu-icon" onClick={this.handleOpenClick}/>
+
+
 		return (
 				<div>
-					<div className="sidenav" style={{width:this.state.width}}>
-						<div  id="x-icon" >
-							<Icon size={28} icon={x} onClick={this.handleCloseClick} />
-						</div>
-						<div>
-							<Icon size={28} icon={user} id="user-icon" />
-						</div>
-						<a href="/home">Home</a>
-						
-					</div>
-					<div className="main" style={{marginLeft: this.state.marginLeft}}>
-						<Icon size={32} icon={menu} id="menu-icon" onClick={this.handleOpenClick}/>
-						
+					<div className="main">
 						<div id="table-section">
 							<h1 id="table-head">Top 10 List</h1>
 							<h3 id="table-head2">Top 10 cryptocurrencies by total volume across all markets in the last 24 hours</h3>
@@ -208,7 +196,6 @@ class Landing extends Component {
 
 							/>
 						</div>
-
 					</div>
 				</div>
 			)

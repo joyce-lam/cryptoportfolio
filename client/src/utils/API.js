@@ -12,7 +12,7 @@ export default {
 	},
 	getCoinPastDay: function(symbol, dateTimeRange) {
 		return axios.get(`/api/coin/` + symbol + `/day/` + dateTimeRange)
-	}
+	},
 	getUserCrypto: function(userId) {
 		return axios.get(`/api/users/${userId}/cryptocurrencies`)
 	},

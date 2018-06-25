@@ -11,7 +11,6 @@ class IndividualCoin extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			
 			coinName: "Bitcoin",
 			coinSymbol: "BTC",
 			coinValue: 0,
