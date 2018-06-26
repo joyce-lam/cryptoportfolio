@@ -76,13 +76,11 @@ class Landing extends Component {
 	getTableData = () => {
 		API.getTop10Data()
 			.then(res => {
-				console.log(res)
-				return res
-			}).then(res => {
+				console.log(res.data)
+				let result = res.data
 				this.setState({
-					tableData: res
+					tableData: result
 				})
-				return this.state.tableData
 			}).catch(err => {
 				console.log(err)
 			})

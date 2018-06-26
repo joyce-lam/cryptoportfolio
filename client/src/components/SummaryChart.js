@@ -84,13 +84,13 @@ class SummaryChart extends Component {
     getAccountInfo = (userId) => {
     	API.getUserCrypto(userId)
     		.then(res => {
-    			console.log(res)
+    			console.log(res.data)
     			return res.data
-    		}).then(res => {
+    		}).then(result => {
 
     			let userCryptoArrayWithShares = []
 		    	let userCryptoArray = []
-	    		res.forEach(coin => {
+	    		result.forEach(coin => {
 	    			let coinObj = {}
 	    			coinObj["cryptoSymbol"] = coin.Cryptocurrency.symbol
 	    			coinObj["shares"] = coin.share
@@ -112,13 +112,13 @@ class SummaryChart extends Component {
 			    return userCryptoArrayWithShares
 			   
 
-		    }).then(res => {
+		    }).then(result => {
 		    	this.setState({
-    				userCoins: res
+    				userCoins: result
     			})
-    			console.log("res", res)
+    			console.log("res", result)
 
-    			
+    			return result
 		    }).catch(err => {
     			console.log(err)
     		})
@@ -129,13 +129,13 @@ class SummaryChart extends Component {
 
     	API.getUserCryptoData(userId, coinArr, shareArr)
     		.then(res => {
-    			console.log(res)
-    			return res
-    		}).then(res => {
+    			console.log(res.data)
+    			return res.data
+    		}).then(result => {
     			this.setState({
-    				piechartData: res
+    				piechartData: result
     			})
-    			console.log(res)
+    			console.log(result)
     			console.log(this.state.piechartData)
     		}).catch(err => {
     			console.log(err)

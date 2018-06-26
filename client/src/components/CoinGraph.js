@@ -54,13 +54,11 @@ class CoinGraph extends Component {
 	getHistoricalHour = (symbol, time) => {
 		API.getCoinPastHour(symbol, time)
 			.then(res => {
-				console.log(res)
-				return res
-			}).then(res => {
+				console.log(res.data)
 				this.setState({
-					linechartData: res
+					linechartData: [res.data]
 				})
-				return this.state.linechartData
+				return res.data
 			}).catch(err => { 
 				console.log(err)
 			})
@@ -69,13 +67,11 @@ class CoinGraph extends Component {
 	getHistoricalDay = (symbol, time) => {
 		API.getCoinPastDay(symbol, time)
 			.then(res => {
-				console.log(res)
-				return res
-			}).then(res => {
+				console.log(res.data)
 				this.setState({
-					linechartData: res
+					linechartData: [res.data]
 				})
-				return this.state.linechartData
+				return res.data
 			}).catch(err => {
 				console.log(err)
 			})
