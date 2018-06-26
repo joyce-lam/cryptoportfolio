@@ -7,6 +7,4 @@ const coinsController = require("../../controllers/coinsController");
 router.route("/recentTopN")
 	.get(coinsController.getTopNBy24HVol)
 
-
-
 module.exports = router;

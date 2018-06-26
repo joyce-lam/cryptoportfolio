@@ -5,7 +5,7 @@ export default function CoinCard (props) {
 		<div id="coin-card">
 			<p>{props.heading}</p>
 			
-			<p>USD: {props.text}</p>
+			<p>$ {props.text}</p>
 		</div>
 	)
 }

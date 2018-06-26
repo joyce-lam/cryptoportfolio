@@ -16,20 +16,13 @@ module.exports = {
 				attributes: ["symbol"]
 			}]
 		}).then(dbUserCrypto => {
-			//res.json(dbUserCrypto)
 			return res.json(dbUserCrypto)
 		}).catch(function(err) {
 			res.status(500).json(err)
 		})
-	}
-
-
-
-
-
-	, 
+	}, 
 	findAllCryptoData: function(req, res) {
-		return rq({
+		rq({
     		url: `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${req.params.coinArr}&tsyms=USD`,
 			headers: {
 				 "Accept": "application/json",
@@ -38,81 +31,41 @@ module.exports = {
 			method: "GET",
 			json: true
 
-			}).then(response => {
-				console.log("res", response)
-				return response
-			}).then(res => {
-				console.log(res.DISPLAY)
+			}).then(result => {
+				console.log(result.DISPLAY)
 
 				let cryptoArr = req.params.coinArr.split(",")
-				console.log("arr", cryptoArr)
-
+				//console.log("arr", cryptoArr)
 				let shares = req.params.shareArr.split(",")
-				console.log("s", shares)
-
+				//console.log("s", shares)
 	      		let dataArray = []
-	      		
+	      		let valueArray = []	
 	      		cryptoArr.forEach((one, ind) => {
 	      			let dataObj = {}
 	      			dataObj["key"] = one
-
-	      			let valPerShare = res.DISPLAY[one].USD.PRICE
+	      			let valPerShare = result.DISPLAY[one].USD.PRICE
 	      			valPerShare = valPerShare.split(" ")
-	      			valPerShare = parseInt(valPerShare[1])
-	      			dataObj["value"] = valPerShare * parseInt(shares[ind])
-
+	      			valPerShare = valPerShare[1]
+	      			valPerShare = valPerShare.replace(",", "")
+	      			valPerShare = parseFloat(valPerShare).toFixed(2)
+	      			console.log(valPerShare)
+	      			let val = valPerShare * parseInt(shares[ind])
+	      			dataObj["value"] = val.toFixed(2)
+	      			//console.log(dataObj["value"])
 	      			dataArray.push(dataObj)
+	      			valueArray.push(dataObj["value"])
 	      		})
 
-	      		console.log(dataArray)
+	      		console.log("dataarray", dataArray)
+	      		console.log("valuearray", valueArray)
 	      		
 	      		return dataArray
+			}).then(result => {
+				return res.json(result)
 			}).catch(err => {
 				console.log(err)
 			})
 	}
+	
 }
 
-// getCryptoData = (cryptoArr, cryptoArrWithShares) => {
-// 	let coinArr = cryptoArr.join()
-
-// 	let shareArr = []
-//     	cryptoArrWithShares.forEach(coinShare => {
-//     		shareArr.push(coinShare.shares)
-//     	})
-
-//     return rq({
-//     		url: `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinArr}&tsyms=USD`,
-			
-// 			method: "GET",
-// 			json: true
-
-// 			}).then(response => {
-// 				//console.log("res", response)
-// 				return response
-// 			}).then(res => {
-// 				console.log(res.DISPLAY)
-
-// 	      		let dataArray = []
-	      		
-// 	      		cryptoArr.forEach((one, ind) => {
-// 	      			let dataObj = {}
-// 	      			dataObj["key"] = one
-
-// 	      			let valPerShare = res.DISPLAY[one].USD.PRICE
-// 	      			valPerShare = valPerShare.split(" ")
-// 	      			valPerShare = parseInt(valPerShare[1])
-// 	      			dataObj["value"] = valPerShare * parseInt(shareArr[ind])
-
-// 	      			dataArray.push(dataObj)
-// 	      		})
-
-// 	      		console.log(dataArray)
-	      		
-// 	      		return dataArray
-// 			}).catch(err => {
-// 				console.log(err)
-// 			})
-
-
-// }

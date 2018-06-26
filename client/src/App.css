@@ -130,7 +130,9 @@
 }
 
 
-
+#portfolio-table {
+  padding: 50px;
+}
 
 #individual-coin {
   position: relative;
