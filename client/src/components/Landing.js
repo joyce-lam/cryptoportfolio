@@ -191,7 +191,6 @@ class Landing extends Component {
 								showPageSizeOptions={false}
 								defaultPageSize={10}
 								resizable={true}
-
 							/>
 						</div>
 					</div>

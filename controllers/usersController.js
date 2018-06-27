@@ -16,7 +16,19 @@ module.exports = {
 				attributes: ["symbol"]
 			}]
 		}).then(dbUserCrypto => {
-			return res.json(dbUserCrypto)
+			//console.log(dbUserCrypto[0].dataValues.share)
+			//console.log(dbUserCrypto[0].dataValues.Cryptocurrency.dataValues.symbol)
+
+			let userCryptoArrayWithShares = []
+		    let userCryptoArray = []
+			dbUserCrypto.forEach((one, ind) => {
+				let coinObj = {}
+				coinObj["cryptoSymbol"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.symbol
+    			coinObj["shares"] = dbUserCrypto[ind].dataValues.share
+    			userCryptoArrayWithShares.push(coinObj)
+    			userCryptoArray.push(dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.symbol)
+			})
+			return res.json(userCryptoArrayWithShares)
 		}).catch(function(err) {
 			res.status(500).json(err)
 		})
@@ -32,7 +44,7 @@ module.exports = {
 			json: true
 
 			}).then(result => {
-				console.log(result.DISPLAY)
+				//console.log(result.DISPLAY)
 
 				let cryptoArr = req.params.coinArr.split(",")
 				//console.log("arr", cryptoArr)
@@ -48,7 +60,7 @@ module.exports = {
 	      			valPerShare = valPerShare[1]
 	      			valPerShare = valPerShare.replace(",", "")
 	      			valPerShare = parseFloat(valPerShare).toFixed(2)
-	      			console.log(valPerShare)
+	      			//console.log(valPerShare)
 	      			let val = valPerShare * parseInt(shares[ind])
 	      			dataObj["value"] = val.toFixed(2)
 	      			//console.log(dataObj["value"])

@@ -92,7 +92,7 @@ class MainContainer extends Component {
 					<div>
 				      	<Route exact path="/" component={Landing} />
 				        <Route exact path="/home" component={HomeSummary} />
-				        <Route exact path="/coin" component={CoinSummary} />
+				        <Route exact path="/coins" component={CoinSummary} />
 				    </div>
 		        </Sidebar>
 		  	</BrowserRouter>

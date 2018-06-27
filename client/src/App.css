@@ -132,6 +132,7 @@
 
 #portfolio-table {
   padding: 50px;
+  text-align: center;
 }
 
 #individual-coin {
@@ -160,9 +161,10 @@
   border: 2px solid #9BD9FF;
   border-radius: 8px;
   /*width: 20%;*/
-  padding: 10px;
-  margin: 5px 0px 50px 0px;
-  font-size: 20px;
+  padding: 30px;
+  margin: 100px 0px 100px 0px;
+  font-size: 25px;
+  text-align: center;
 }
 
 #coin-graph {
@@ -188,7 +190,9 @@
 }
 
 
-
+#summary-head {
+  font-weight: 800;
+}
 
 #summary-card {
   margin-top: 50px;
@@ -198,4 +202,19 @@
 
 #summary-total {
   margin-top: 50px;
+}
+
+.coin-list {
+  font-size: 20px;
+
+}
+
+ul {
+  list-style-type: none;
+}
+
+#arrow-icon {
+  top: 50%;
+  bottom: 50%;
+  padding-top: 20px;
 }

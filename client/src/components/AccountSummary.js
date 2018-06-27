@@ -4,7 +4,10 @@ import React, { Component } from "react"
 import SummaryChart from "./SummaryChart"
 import CoinCard from "./CoinCard"
 
+
 import ReactTable from "react-table"
+import Icon from 'react-icons-kit'
+import {play3} from 'react-icons-kit/icomoon/play3'
 
 import API from "../utils/API"
 
@@ -14,6 +17,7 @@ class AccountSummary extends Component {
 		this.state = {
 			userId: 1,
 			userCoins: [],
+			userCoinsShare: [],
 			totalAmount: 0,
 			piechartData: [{ key: 'A', value: 100, color: '#aaac84'}],
 			config: [{color: '#aaac84'}],
@@ -107,49 +111,34 @@ class AccountSummary extends Component {
     getAccountInfo = (userId) => {
     	API.getUserCrypto(userId)
     		.then(res => {
-    			//console.log(res.data)
+    			console.log(res.data)
     			return res.data
     		}).then(result => {
+    			this.setState({
+    				userCoinsShare: result
+    			})
 
-    			let userCryptoArrayWithShares = []
-		    	let userCryptoArray = []
-	    		result.forEach(coin => {
-	    			let coinObj = {}
-	    			coinObj["cryptoSymbol"] = coin.Cryptocurrency.symbol
-	    			coinObj["shares"] = coin.share
-	    			userCryptoArrayWithShares.push(coinObj)
-	    			userCryptoArray.push(coin.Cryptocurrency.symbol)
-	    		})
+    			let coinArr = []
+    			let shareArr = []
+    			result.forEach((one, ind) => {
+    				coinArr.push(result[ind].cryptoSymbol)
+    				shareArr.push(result[ind].shares)
+    			})
 
-		    	//console.log(userCryptoArrayWithShares, userCryptoArray)
-		    	
-		    	let noOfRow = userCryptoArray.length
+    			let noOfRow = coinArr.length
     			//console.log(noOfRow)
 		    	this.setState({
-		    		tableRow: noOfRow
+		    		tableRow: noOfRow,
+		    		userCoins: coinArr
 		    	})
 
-		    	let coinArr = userCryptoArray.join()
-				let shareArr = []
-			    	userCryptoArrayWithShares.forEach(coinShare => {
-			    		shareArr.push(coinShare.shares)
-			    	})
-			    //console.log("share", shareArr)
-			    shareArr = shareArr.join()
-			    this.getUserCoinData(userId, coinArr, shareArr)
-			    this.getUserCoinVal(userId, coinArr, shareArr)
-			   
-			    return userCryptoArrayWithShares
-			   
+		    	console.log(this.state.userCoins)
+    			coinArr = coinArr.join()
+    			shareArr = shareArr.join()
+    			this.getUserCoinData(userId, coinArr, shareArr)
+			   	this.getUserCoinVal(userId, coinArr, shareArr)
 
-		    }).then(result => {
-		    	this.setState({
-    				userCoins: result
-    			})
-    			//console.log("res", result)
-
-    			return result
-		    }).catch(err => {
+    		}).catch(err => {
     			console.log(err)
     		})
     }
@@ -229,6 +218,18 @@ class AccountSummary extends Component {
     }
 
 
+
+    		// <ul>
+// 				{this.state.userCoins.map(coin => {
+// 					return <CoinList key={coin}>
+// 						<a href={"/coin/" + coin}>
+// 						{coin}
+// 						</a>
+// 					</CoinList>
+// 				})}
+// 			</ul>
+
+
 	render() {
 
 		const columns = [{
@@ -252,12 +253,12 @@ class AccountSummary extends Component {
 				<div>
 					<div className="row">
 						<div className="col-12 text-center" >
-							<h1>Summary</h1>
+							<h1 id="summary-head">Your Portfolio Summary</h1>
 						</div>
 					</div>
 					<div className="row" id="summary-card">
 						<div className="col-md-2"></div>
-						<div className="col-xs-12 col-sm-12 col-md-3" id="summary-total">
+						<div className="col-xs-12 col-sm-12 col-md-3">
 							<CoinCard heading="Total Amount" text={this.state.totalAmount} />
 						</div>
 						<div className="col-md-1"></div>
@@ -272,7 +273,6 @@ class AccountSummary extends Component {
 					<div className="row">
 						<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						<div className="col-xs-10 col-sm-10 col-md-8" id="portfolio-table">
-							<h1 id="table-head">Your Portfolio</h1>
 							<ReactTable
 								className="striped"
 								data={this.state.tableData}
@@ -283,6 +283,16 @@ class AccountSummary extends Component {
 								pageSize={this.state.tableRow}
 								resizable={true}
 							/>
+						</div>
+						<div className="col-xs-1 col-sm-1 col-md-2"></div>
+					</div>
+					<div className="row">
+						<div className="col-xs-1 col-sm-1 col-md-2"></div>
+						<div className="col-xs-3 col-sm-3 col-md-1 text-center">
+							<Icon size={32} icon={play3} id="arrow-icon" />
+						</div>
+						<div className="col-xs-7 col-sm-7 col-md-7">
+							<a href="/coins"><h3>View Individual Cryptocurreny</h3></a>
 						</div>
 						<div className="col-xs-1 col-sm-1 col-md-2"></div>
 					</div>
