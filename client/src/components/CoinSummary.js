@@ -3,8 +3,8 @@ import React, { Component } from "react"
 import IndividualCoin from "./IndividualCoin"
 import CoinList	from "./CoinList"
 
-
-
+import Icon from 'react-icons-kit'
+import {play3} from 'react-icons-kit/icomoon/play3'
 
 import API from "../utils/API"
 
@@ -13,13 +13,18 @@ class CoinSummary extends Component {
 		super(props)
 		this.state = {
 			userId: 1,
-			userCoins: [],
+			userCoinsSymbol: [],
+            userCoinsFullName: [],
 			userCoinsShare: [],
 			coinName: "",
+			coinSymbol: "",
+			coinValue: 0,
+			coinAmount: 0,
 			random: "random"
 		}
 
 		this.getAccountInfo = this.getAccountInfo.bind(this)
+		this.getPrice = this.getPrice.bind(this)
 	}
 
 	// handleOpenClick() {
@@ -66,21 +71,47 @@ class CoinSummary extends Component {
     			})
 
     			let coinArr = []
-    			let shareArr = []
+    			let coinArrFullName = []
+                let shareArr = []
+
     			result.forEach((one, ind) => {
+                    coinArrFullName.push(result[ind].cryptoName)
     				coinArr.push(result[ind].cryptoSymbol)
     				shareArr.push(result[ind].shares)
     			})
 
 		    	this.setState({
-		    		userCoinsShare: result,
-		    		userCoins: coinArr
+		    		userCoinsSymbol: coinArr,
+                    userCoinsFullName: coinArrFullName,
+                    userCoinsShare: shareArr
 		    	})
     		}).catch(err => {
     			console.log(err)
     		})
     }
 
+    handleCoinClick = (id, symbol) => {
+    	this.setState({
+    		coinName: id,
+    		coinSymbol: id
+    	})
+    	console.log("clicked", this.state.coinName, this.state.coinSymbol)
+
+    	this.getPrice(this.state.coinSymbol)
+    }
+
+    getPrice = symbol => {
+		API.getCoinCurrentPrice(symbol)
+			.then(res => {
+				console.log(res.data)
+				this.setState({
+					coinValue: res.data
+				})
+				return res.data
+			}).catch(err => {
+				console.log(err)
+			})
+	}
 
 
 	render() {
@@ -88,32 +119,50 @@ class CoinSummary extends Component {
 		return (
 				<div>				
 					<div className="main">
-
-						<div className="row">
-							<div className="col-xs-1 col-sm-1 col-md-2"></div>
-							<div className="col-xs-10 col-sm-10 col-md-8 text-center">
-									{this.state.coinName.length ? (
-										<IndividualCoin 
-											random={this.state.random} 
-										/>
-									) : (
-										<h3>Your Wallet (Choose one cryptocurrency to view)</h3>
-										)}
+						<div className="row">					
+							<div className="col-xs-12 col-sm-12 col-md-12 text-center">
+								<h1>Your Wallet</h1>
 							</div>
-							<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						</div>
 						<div className="row">
 							<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						 	<div className="col-xs-10 col-sm-10 col-md-8 text-center">
 							 	<ul>
 									{this.state.userCoins.map(coin => {
-										return <CoinList key={coin} id={coin}>{coin}</CoinList>
+										return <CoinList 
+													key={coin}
+													id={coin}
+													handleCoinClick={this.handleCoinClick}>{coin}
+												</CoinList>
 									})}
 								</ul>
 							</div>
 							<div className="col-xs-1 col-sm-1 col-md-2"></div>
+						</div>		
+						<div className="row">
+							<div className="col-xs-12 col-sm-12 col-md-12 text-center">
+								{this.state.coinName.length ? (
+									<IndividualCoin 
+										random={this.state.random}
+										coinName={this.state.coinName}
+										coinSymbol={this.state.coinSymbol}
+										coinValue={this.state.coinValue}
+									/>
+								) : (
+										<h3>(Double-click the cryptocurrency you would like to view)</h3>
+									)}
+							</div>
 						</div>
-
+						<div className="row">
+							<div className="col-xs-1 col-sm-1 col-md-2"></div>
+							<div className="col-xs-3 col-sm-3 col-md-1 text-center">
+								<Icon size={32} icon={play3} id="arrow-icon" />
+							</div>
+							<div className="col-xs-7 col-sm-7 col-md-7">
+								<a href="/home"><h3>Back to Your Portfolio</h3></a>
+							</div>
+							<div className="col-xs-1 col-sm-1 col-md-2"></div>
+						</div>
 					</div>
 				</div>
 			)

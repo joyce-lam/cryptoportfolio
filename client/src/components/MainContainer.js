@@ -7,8 +7,9 @@ import {
 
 import SidebarContent from "./SidebarContent"
 import Landing from "./Landing"
-import HomeSummary from "./HomeSummary"
+import AccountSummary from "./AccountSummary"
 import CoinSummary from "./CoinSummary"
+import ManageAccount from "./ManageAccount"
 
 import Icon from 'react-icons-kit'
 import {menu} from 'react-icons-kit/icomoon/menu'
@@ -91,8 +92,9 @@ class MainContainer extends Component {
 					</div>
 					<div>
 				      	<Route exact path="/" component={Landing} />
-				        <Route exact path="/home" component={HomeSummary} />
+				        <Route exact path="/home" component={AccountSummary} />
 				        <Route exact path="/coins" component={CoinSummary} />
+				        <Route exact path="/manage-account" component={ManageAccount} />
 				    </div>
 		        </Sidebar>
 		  	</BrowserRouter>

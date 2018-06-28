@@ -52,6 +52,9 @@
   /*padding-top: 60px;*/
 /*}*/
 
+
+/*====================================*/
+/*sidebar*/
 .custom-sidebar-class {
   background-color: #41A3C4;
   width: 150px;
@@ -63,7 +66,6 @@
   margin-right: 25px;
 }
 */
-
 #user-icon {
     padding: 20px;
     margin-left: 40px;
@@ -71,10 +73,6 @@
   /*transition: 0.3s;*/
 }
 
-#menu-icon {
-    padding: 30px;
-    color: #000000;
-} 
 
 .custom-sidebar-class a {
     padding: 8px 8px 8px 32px;
@@ -85,20 +83,34 @@
     transition: 0.3s;
 }
 
+.custom-sidebar-class a:hover {
+  color: #f1f1f1;
+}
+
+
+
+/*====================================*/
+/*main frame*/
+#menu-icon {
+    padding: 30px;
+    color: #000000;
+} 
+
+
+
 /*.sidenav #x-icon:hover {
   color: #f1f1f1;
 }*/
 
 
-.custom-sidebar-class a:hover {
-  color: #f1f1f1;
-}
-
 .main {
   transition: margin-left 0.5s;
-  padding: 20px;
+  /*padding: 20px;*/
 }
 
+
+/*====================================*/
+/*top 10 table*/
 
 .ReactTable {
   width: auto;
@@ -129,16 +141,51 @@
   font-weight: 800;
 }
 
+/*====================================*/
+/*account summary table*/
 
 #portfolio-table {
   padding: 50px;
   text-align: center;
 }
 
+#summary-head {
+  font-weight: 800;
+}
+
+#summary-card {
+  margin-top: 50px;
+  padding: 10px;
+}
+
+
+#summary-total {
+  margin-top: 50px;
+}
+
+.coin-list {
+  font-size: 20px;
+
+}
+
+ul {
+  list-style-type: none;
+}
+
+#arrow-icon {
+  top: 50%;
+  bottom: 50%;
+  padding-top: 20px;
+}
+
+
+/*====================================*/
+/*coin*/
+
+
 #individual-coin {
   position: relative;
   /*display: block;*/
-  
   margin: 50px 120px 50px 120px;
   padding: 30px;
   text-align: left;
@@ -189,32 +236,12 @@
   margin-right: 2 0px;
 }
 
-
-#summary-head {
-  font-weight: 800;
+/*====================================*/
+/*add + delete coin*/
+#add-coin-card {
+  padding: 30px;
 }
 
-#summary-card {
-  margin-top: 50px;
-  padding: 10px;
-}
-
-
-#summary-total {
-  margin-top: 50px;
-}
-
-.coin-list {
-  font-size: 20px;
-
-}
-
-ul {
-  list-style-type: none;
-}
-
-#arrow-icon {
-  top: 50%;
-  bottom: 50%;
-  padding-top: 20px;
+#delete-coin-card {
+  padding: 30px;
 }

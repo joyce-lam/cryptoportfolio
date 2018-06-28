@@ -224,15 +224,13 @@ const SummaryChart =  props => (
 		<PieChart
 			size={400}
 			innerHoleSize={200}
-			labels
 			data={props.data}
 			styles={props.styles}		
 		/>
 		<Legend 
 			data={props.data} 
 			dataId={"key"} 
-			horizontal
-			config={props.config}
+			horizontal	
 		/>
 	</div>
 

@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 
-// import Sidenav2 from "./Sidenav2"
 import SummaryChart from "./SummaryChart"
 import CoinCard from "./CoinCard"
 
@@ -16,7 +15,8 @@ class AccountSummary extends Component {
 		super(props);
 		this.state = {
 			userId: 1,
-			userCoins: [],
+			userCoinsSymbol: [],
+            userCoinsFullName: [],
 			userCoinsShare: [],
 			totalAmount: 0,
 			piechartData: [{ key: 'A', value: 100, color: '#aaac84'}],
@@ -37,20 +37,15 @@ class AccountSummary extends Component {
 	      }
     	}
 
-
-		//this.getUserInfo = this.getUserInfo.bind(this)
 		this.getAccountInfo = this.getAccountInfo.bind(this)
     	this.getUserCoinData = this.getUserCoinData.bind(this)
 		this.getUserCoinVal = this.getUserCoinVal.bind(this)
 		this.processTableData = this.processTableData.bind(this)
-		
 	}
 
 
 	componentDidMount() {
-		//this.getUserInfo()
 		this.getAccountInfo("1")
-		// this.getUserCoinVal("1")
 	}
 
 	// getUserId = () => {
@@ -101,10 +96,10 @@ class AccountSummary extends Component {
 	    	
 	   //  }).then(data => {
 	   //  	this.setState({
-	   //  		userCoins: data
+	   //  		userCoinsSymbol: data
 	   //  	})
-	   //  	console.log(this.state.userCoins)
-	   //  	return this.state.userCoins
+	   //  	console.log(this.state.userCoinsSymbol)
+	   //  	return this.state.userCoinsSymbol
 	   //  })
     // }
 	
@@ -119,8 +114,11 @@ class AccountSummary extends Component {
     			})
 
     			let coinArr = []
-    			let shareArr = []
+    			let coinArrFullName = []
+                let shareArr = []
+
     			result.forEach((one, ind) => {
+                    coinArrFullName.push(result[ind].cryptoName)
     				coinArr.push(result[ind].cryptoSymbol)
     				shareArr.push(result[ind].shares)
     			})
@@ -129,13 +127,15 @@ class AccountSummary extends Component {
     			//console.log(noOfRow)
 		    	this.setState({
 		    		tableRow: noOfRow,
-		    		userCoins: coinArr
+		    		userCoinsSymbol: coinArr,
+                    userCoinsFullName: coinArrFullName,
+                    userCoinsShare: shareArr
 		    	})
 
-		    	console.log(this.state.userCoins)
+		    	console.log(this.state.userCoinsSymbol)
     			coinArr = coinArr.join()
     			shareArr = shareArr.join()
-    			this.getUserCoinData(userId, coinArr, shareArr)
+    			this.getUserCoinData(userId, coinArr, shareArr, coinArrFullName)
 			   	this.getUserCoinVal(userId, coinArr, shareArr)
 
     		}).catch(err => {
@@ -144,21 +144,32 @@ class AccountSummary extends Component {
     }
 
 
-    getUserCoinData = (userId, coinArr, shareArr) => {
+    getUserCoinData = (userId, coinArr, shareArr, coinArrFullName) => {
 
-    	API.getUserCryptoData(userId, coinArr, shareArr)
+    	API.getUserCryptoData(userId, coinArr, shareArr, coinArrFullName)
     		.then(res => {
     			//console.log(res.data)
     			return res.data
     		}).then(result => {
-    			this.setState({
-    				piechartData: result,
-    				coinData: result
+                //console.log(result)
+
+                let processedResult = []
+                result.forEach((one, ind) => {
+                    let processedObj = {}
+                    processedObj["key"] = coinArrFullName[ind]
+                    processedObj["value"] = result[ind].value
+                    processedResult.push(processedObj)
+                })
+                //console.log("after", processedResult)
+
+                this.setState({
+    				piechartData: processedResult,
+    				coinData: processedResult
     			})
     			//console.log(result)
     			this.getUserCoinVal()
     			//console.log(this.state.piechartData)
-    			this.processTableData(coinArr, shareArr)
+    			this.processTableData(coinArrFullName, coinArr, shareArr)
     		}).catch(err => {
     			console.log(err)
     		})
@@ -196,18 +207,16 @@ class AccountSummary extends Component {
     	})
     }
 
-    processTableData = (coinArr, shareArr) => {
+    processTableData = (coinArrFullName, coinArr, shareArr) => {
     	let symbolArr = coinArr.split(",")
     	//console.log("sym", symbolArr)
-    	
     	let amountArr = shareArr.split(",")
-
     	let tableArr = []
     	this.state.coinData.forEach((one, ind) => {
     		let tableObj = {}
-    		tableObj["symbol"] = symbolArr[ind]
+    		tableObj["name"] = `${coinArrFullName[ind]} ${symbolArr[ind]}`
     		tableObj["amount"] = amountArr[ind]
-    		tableObj["value"] = `$ ` + one["value"]
+    		tableObj["value"] = `$ ${one["value"]}`
     		tableArr.push(tableObj)
     	})
     	//console.log("table", tableArr, this.state.tableRow)
@@ -220,7 +229,7 @@ class AccountSummary extends Component {
 
 
     		// <ul>
-// 				{this.state.userCoins.map(coin => {
+// 				{this.state.userCoinsSymbol.map(coin => {
 // 					return <CoinList key={coin}>
 // 						<a href={"/coin/" + coin}>
 // 						{coin}
@@ -233,8 +242,8 @@ class AccountSummary extends Component {
 	render() {
 
 		const columns = [{
-				Header: "Symbol",
-				accessor: "symbol",
+				Header: "Cryptocurrency Name",
+				accessor: "name",
 				headerClassName: "header-style",
 				className: "table-body"
 			},{
@@ -250,7 +259,7 @@ class AccountSummary extends Component {
 			}]
 
 		return (
-				<div>
+				<div className="main">
 					<div className="row">
 						<div className="col-12 text-center" >
 							<h1 id="summary-head">Your Portfolio Summary</h1>
@@ -266,7 +275,7 @@ class AccountSummary extends Component {
 							<SummaryChart 
 								data={this.state.piechartData}
 								styles={this.styles}
-								config={this.state.config}
+								
 							/>
 						</div>
 					</div>
@@ -282,6 +291,16 @@ class AccountSummary extends Component {
 								minRows={1}
 								pageSize={this.state.tableRow}
 								resizable={true}
+                                getTdProps={(state, rowInfo, column, instance) => {
+                                    return {
+                                      onClick: (e, handleOriginal) => {
+                                        console.log(rowInfo.original.name)
+                                        if (handleOriginal) {
+                                          handleOriginal()
+                                        }
+                                      }
+                                    };
+                                  }}
 							/>
 						</div>
 						<div className="col-xs-1 col-sm-1 col-md-2"></div>

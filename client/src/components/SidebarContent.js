@@ -20,8 +20,9 @@ class SidebarContent extends Component {
 				<div>
 					<Icon size={28} icon={user} id="user-icon" />
 				</div>
-				<a href="/home">Home</a>
-				<a href="/coin">Coins</a>
+				<a href="/home">Your Portfolio</a>
+				<a href="/coins">Your Wallet</a>
+				<a href="/manage-account">Manage Account</a>
 			</div>
 		)
 	}

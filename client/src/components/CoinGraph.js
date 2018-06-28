@@ -1,16 +1,20 @@
 import React, { Component } from "react"
 
 import { LineChart } from "react-easy-chart"
+// import Media from "react-media"
+import MediaQuery from "react-responsive"
+import ReactTable from "react-table"
+
 import API from "../utils/API"
 
 class CoinGraph extends Component {
 	constructor(props) {
 		super(props);
-		
-	
 	    this.state = {
 	    	linechartData: [[{ x: "00:00", y: 400 }]],
-	    	dateTimeRange: 23,
+	    	tableData: [],
+	    	tableRow: 1,
+	    	dateTimeRange: 11,
 	    	active: true,
 	    	coinName: props.coinName,
 	    	coinSymbol: props.coinSymbol
@@ -55,9 +59,15 @@ class CoinGraph extends Component {
 		API.getCoinPastHour(symbol, time)
 			.then(res => {
 				console.log(res.data)
+
+				let noOfRow = res.data.length
+
 				this.setState({
-					linechartData: [res.data]
+					linechartData: [res.data],
+					tableData: res.data,
+					tableRow: noOfRow
 				})
+
 				return res.data
 			}).catch(err => { 
 				console.log(err)
@@ -68,9 +78,15 @@ class CoinGraph extends Component {
 		API.getCoinPastDay(symbol, time)
 			.then(res => {
 				console.log(res.data)
+
+				let noOfRow = res.data.length
+
 				this.setState({
-					linechartData: [res.data]
+					linechartData: [res.data],
+					tableData: res.data,
+					tableRow: noOfRow
 				})
+
 				return res.data
 			}).catch(err => {
 				console.log(err)
@@ -160,33 +176,110 @@ class CoinGraph extends Component {
 	// 	      })
 	// 		}
 
+// <Media query="(max-width:768px)">
+// 	{matches => 
+// 		matches ? (
+// 			<div>
+// 			<LineChart
+// 				axes
+// 			    axisLabels={{x: 'Time', y: 'Price'}}
+// 			    style={{ '.label': { fill: 'black' } }}
+// 			    xType={"text"}  
+// 			    grid
+// 				width={300}
+// 				height={250}
+// 			    data={this.state.linechartData}
+// 			  />
+// 			  <p>smaller</p>
+// 			 </div>
+// 		) : (
+// 			<div>
+// 			<LineChart
+// 				axes
+// 			    axisLabels={{x: 'Time', y: 'Price'}}
+// 			    style={{ '.label': { fill: 'black' } }}
+// 			    xType={"text"}  
+// 			    grid
+// 				width={680}
+// 				height={330}
+// 			    data={this.state.linechartData}
+// 			  />
+// 			  <p>bigger</p>
+// 			 </div>
+// 		)
+// 	}
+// </Media>
+	// 
+
 	render() {
+			const columns = [{
+					Header: "Time",
+					accessor: "x",
+					headerClassName: "header-style",
+					className: "table-body"
+				},{
+					Header: "Price",
+					accessor: "y",
+					headerClassName: "header-style",
+					className: "table-body"
+				}]
+
 
 		return (
 				<div id="coin-graph">
-
-					<div className="btn-group btn-group-sm" role="group"  style={{backgroundColor:this.state.bgColor}} >
-					  <button type="button" className="btn btn-success active" name="dateTimeRange" value="23" onClick={(e) => this.handleClick(e)}>1 Day</button>
-					  <button type="button" className="btn btn-success" name="dateTimeRange" value="3" onClick={(e) => this.handleClick1(e)}>3 Days</button>
-					  <button type="button" className="btn btn-success" name="dateTimeRange" value="7" onClick={(e) => this.handleClick1(e)}>1 Week</button>
-					  <button type="button" className="btn btn-success" name="dateTimeRange" value="30" onClick={(e) => this.handleClick1(e)}>1 Month</button>
-					  <button type="button" className="btn btn-success" name="dateTimeRange" value="90" onClick={(e) => this.handleClick1(e)}>3 Months</button>
-					  <button type="button" className="btn btn-success" name="dateTimeRange" value="180" onClick={(e) => this.handleClick1(e)}>6 Months</button>
+					<div className="row">
+						<div className="col-12">
+							<div className="btn-group btn-group-sm" role="group"  style={{backgroundColor:this.state.bgColor}} >
+								 <button type="button" className="btn btn-success active" name="dateTimeRange" value="12" onClick={(e) => this.handleClick(e)}>1 Day</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="3" onClick={(e) => this.handleClick1(e)}>3 Days</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="7" onClick={(e) => this.handleClick1(e)}>1 Week</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="30" onClick={(e) => this.handleClick1(e)}>1 Month</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="90" onClick={(e) => this.handleClick1(e)}>3 Months</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="180" onClick={(e) => this.handleClick1(e)}>6 Months</button>
+							</div>
+						</div>
 					</div>
-					<div id="linechart">
-						<LineChart
-							axes
-						    axisLabels={{x: 'Time', y: 'Price'}}
-						    xType={"text"} 
-						    
-						    grid
-							width={680}
-							height={330}
-						    data={this.state.linechartData}
-						  />
+					<div className="row">
+						<div className="col-12">
+							<MediaQuery minWidth={400} maxWidth={599}>
+								<ReactTable
+									className="striped"
+									data={this.state.tableData}
+									columns={columns}
+									showPagination={false}
+									showPageSizeOptions={false}
+									minRows={1}
+									pageSize={this.state.tableRow}
+									resizable={true}
+								/>
+							</MediaQuery>
+							<MediaQuery minWidth={600} maxWidth={768}>
+								<LineChart
+									axes
+								    axisLabels={{x: 'Time', y: 'Price'}}
+								    style={{ '.label': { fill: 'black' } }}
+								    xType={"text"}  
+								    grid
+									width={450}
+									height={280}
+								    data={this.state.linechartData}
+								  />
+							</MediaQuery>
+							<MediaQuery minWidth={769}>
+								<LineChart
+									axes
+								    axisLabels={{x: 'Time', y: 'Price'}}
+								    style={{ '.label': { fill: 'black' } }}
+								    xType={"text"}  
+								    grid
+									width={520}
+									height={380}
+								    data={this.state.linechartData}
+								  />
+							</MediaQuery>
+						</div>
 					</div>
 				</div>
-				
 			)
 	}
 }
