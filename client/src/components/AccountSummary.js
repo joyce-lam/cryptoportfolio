@@ -2,7 +2,7 @@ import React, { Component } from "react"
 
 import SummaryChart from "./SummaryChart"
 import CoinCard from "./CoinCard"
-
+import UserCoinTable from "./UserCoinTable"
 
 import ReactTable from "react-table"
 import Icon from 'react-icons-kit'
@@ -15,15 +15,10 @@ class AccountSummary extends Component {
 		super(props);
 		this.state = {
 			userId: 1,
-			userCoinsSymbol: [],
-            userCoinsFullName: [],
-			userCoinsShare: [],
+			userCoinsAndShares: [],
 			totalAmount: 0,
 			piechartData: [{ key: 'A', value: 100, color: '#aaac84'}],
-			config: [{color: '#aaac84'}],
-			coinData: [],
-			tableData: [],
-			tableRow: 1
+			config: [{color: '#aaac84'}]
 		}
 
 		this.styles = {
@@ -40,7 +35,6 @@ class AccountSummary extends Component {
 		this.getAccountInfo = this.getAccountInfo.bind(this)
     	this.getUserCoinData = this.getUserCoinData.bind(this)
 		this.getUserCoinVal = this.getUserCoinVal.bind(this)
-		this.processTableData = this.processTableData.bind(this)
 	}
 
 
@@ -109,14 +103,10 @@ class AccountSummary extends Component {
     			console.log(res.data)
     			return res.data
     		}).then(result => {
-    			this.setState({
-    				userCoinsShare: result
-    			})
 
     			let coinArr = []
     			let coinArrFullName = []
                 let shareArr = []
-
     			result.forEach((one, ind) => {
                     coinArrFullName.push(result[ind].cryptoName)
     				coinArr.push(result[ind].cryptoSymbol)
@@ -126,13 +116,10 @@ class AccountSummary extends Component {
     			let noOfRow = coinArr.length
     			//console.log(noOfRow)
 		    	this.setState({
+                    userCoinsAndShares: result,
 		    		tableRow: noOfRow,
-		    		userCoinsSymbol: coinArr,
-                    userCoinsFullName: coinArrFullName,
-                    userCoinsShare: shareArr
 		    	})
 
-		    	console.log(this.state.userCoinsSymbol)
     			coinArr = coinArr.join()
     			shareArr = shareArr.join()
     			this.getUserCoinData(userId, coinArr, shareArr, coinArrFullName)
@@ -146,13 +133,12 @@ class AccountSummary extends Component {
 
     getUserCoinData = (userId, coinArr, shareArr, coinArrFullName) => {
 
-    	API.getUserCryptoData(userId, coinArr, shareArr, coinArrFullName)
+    	API.getUserCryptoData(userId, coinArr, shareArr)
     		.then(res => {
-    			//console.log(res.data)
+    			console.log(res.data)
     			return res.data
     		}).then(result => {
                 //console.log(result)
-
                 let processedResult = []
                 result.forEach((one, ind) => {
                     let processedObj = {}
@@ -163,13 +149,10 @@ class AccountSummary extends Component {
                 //console.log("after", processedResult)
 
                 this.setState({
-    				piechartData: processedResult,
-    				coinData: processedResult
+    				piechartData: processedResult
     			})
-    			//console.log(result)
+
     			this.getUserCoinVal()
-    			//console.log(this.state.piechartData)
-    			this.processTableData(coinArrFullName, coinArr, shareArr)
     		}).catch(err => {
     			console.log(err)
     		})
@@ -193,10 +176,10 @@ class AccountSummary extends Component {
 
     getUserCoinVal = () => {
     	let totalVal = 0
-    	this.state.coinData.forEach(one => {
+        //console.log("this.state.coinData", this.state.coinData)
+    	this.state.piechartData.forEach(one => {
     		let val = parseFloat(one["value"]).toFixed(2)
     		val = parseFloat(val)
-    		//console.log("val", val)
     		totalVal += val
     		//console.log(totalVal)
     	})
@@ -207,57 +190,7 @@ class AccountSummary extends Component {
     	})
     }
 
-    processTableData = (coinArrFullName, coinArr, shareArr) => {
-    	let symbolArr = coinArr.split(",")
-    	//console.log("sym", symbolArr)
-    	let amountArr = shareArr.split(",")
-    	let tableArr = []
-    	this.state.coinData.forEach((one, ind) => {
-    		let tableObj = {}
-    		tableObj["name"] = `${coinArrFullName[ind]} ${symbolArr[ind]}`
-    		tableObj["amount"] = amountArr[ind]
-    		tableObj["value"] = `$ ${one["value"]}`
-    		tableArr.push(tableObj)
-    	})
-    	//console.log("table", tableArr, this.state.tableRow)
-
-    	this.setState({
-    		tableData: tableArr
-    	})
-    }
-
-
-
-    		// <ul>
-// 				{this.state.userCoinsSymbol.map(coin => {
-// 					return <CoinList key={coin}>
-// 						<a href={"/coin/" + coin}>
-// 						{coin}
-// 						</a>
-// 					</CoinList>
-// 				})}
-// 			</ul>
-
-
 	render() {
-
-		const columns = [{
-				Header: "Cryptocurrency Name",
-				accessor: "name",
-				headerClassName: "header-style",
-				className: "table-body"
-			},{
-				Header: "Amount",
-				accessor: "amount",
-				headerClassName: "header-style",
-				className: "table-body"
-			},{
-				Header: "Value",
-				accessor: "value",
-				headerClassName: "header-style",
-				className: "table-body"
-			}]
-
 		return (
 				<div className="main">
 					<div className="row">
@@ -274,36 +207,16 @@ class AccountSummary extends Component {
 						<div className="col-xs-12 col-sm-12 col-md-6">
 							<SummaryChart 
 								data={this.state.piechartData}
-								styles={this.styles}
-								
+								styles={this.styles}	
 							/>
 						</div>
 					</div>
 					<div className="row">
-						<div className="col-xs-1 col-sm-1 col-md-2"></div>
-						<div className="col-xs-10 col-sm-10 col-md-8" id="portfolio-table">
-							<ReactTable
-								className="striped"
-								data={this.state.tableData}
-								columns={columns}
-								showPagination={false}
-								showPageSizeOptions={false}
-								minRows={1}
-								pageSize={this.state.tableRow}
-								resizable={true}
-                                getTdProps={(state, rowInfo, column, instance) => {
-                                    return {
-                                      onClick: (e, handleOriginal) => {
-                                        console.log(rowInfo.original.name)
-                                        if (handleOriginal) {
-                                          handleOriginal()
-                                        }
-                                      }
-                                    };
-                                  }}
-							/>
+						<div className="col-1"></div>
+						<div className="col-10">
+							<UserCoinTable />
 						</div>
-						<div className="col-xs-1 col-sm-1 col-md-2"></div>
+						<div className="col-1"></div>
 					</div>
 					<div className="row">
 						<div className="col-xs-1 col-sm-1 col-md-2"></div>

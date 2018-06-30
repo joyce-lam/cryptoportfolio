@@ -11,50 +11,146 @@ class DeleteCoin extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			userId: 1,
-			coinOptions: [],
-			selectedCoinOption: "",
-			noOfShares: ""
+			userId: props.userId,
+			userCoinsAndShares: props.userCoinsAndShares,
+			coinOptionsDelete: [],
+			selectedCoinOptionDelete: "",
+			noOfSharesDelete: "",
+			updatedShares: ""
 		}
 
-		this.getCoinOptions = this.getCoinOptions.bind(this)
-
+		this.renderCoinOptionsDelete = this.renderCoinOptionsDelete.bind(this)
+		this.handleCoinChangeDelete = this.handleCoinChangeDelete.bind(this)
+		this.handleShareChangeDelete = this.handleShareChangeDelete.bind(this)
+		this.handleDelete = this.handleDelete.bind(this)
 	}
 
 	componentDidMount() {
-		this.getCoinOptions()
+		//this.getAccountInfo("1")
+		this.renderCoinOptionsDelete(this.state.userId)
 	}
 
-	getCoinOptions = () => {
-		API.getCoinList()
-			.then(res => {
-				console.log(res.data)
-				this.setState({
-					coinOptions: res.data
-				})
-				return res.data
-			}).catch(err => {
-				console.log(err)
-			})
-	}
+	// getAccountInfo = (userId) => {
+ //    	API.getUserCrypto(userId)
+ //    		.then(res => {
+ //    			console.log(res.data)
+ //    			this.setState({
+ //    				userCoinsAndShares: res.data
+ //    			})
+ //    			return res.data
+ //    		}).then(result => {
+    			
+ //    			let coinOptionsArr = []
+ //    			result.forEach((one, ind) => {
+ //                    let coinOptionsObj = {}
+ //                    coinOptionsObj["value"] = result[ind].cryptoId
+ //                    coinOptionsObj["label"] = result[ind].cryptoName
+ //                    coinOptionsArr.push(coinOptionsObj)
+ //    			})
 
+	// 	    	this.setState({
+	// 	    		coinOptionsDelete: coinOptionsArr
+	// 	    	})
+	// 	    	console.log(this.state.coinOptionsDelete)
+    	
+ //    		}).catch(err => {
+ //    			console.log(err)
+ //    		})
+ //    }
 
+ 	renderCoinOptionsDelete = (userId) => {
+    	API.getUserCrypto(userId)
+    		.then(res => {
+    			console.log(res.data)
+    			
+    			this.setState({
+    				userCoinsAndShares: res.data
+    			})
 
-	handleCoinChange = (selectedCoinOption) => {
+    			return res.data
+    		}).then(result => {
+    			let coinOptionsArr = []
+    			result.forEach((one, ind) => {
+                    let coinOptionsObj = {}
+                    coinOptionsObj["value"] = result[ind].cryptoId
+                    coinOptionsObj["label"] = result[ind].cryptoName
+                    coinOptionsArr.push(coinOptionsObj)
+    			})
+
+		    	this.setState({
+		    		coinOptionsDelete: coinOptionsArr
+		    	})
+		    	console.log(this.state.coinOptionsDelete)
+    		}).catch(err => {
+    			console.log(err)
+    		})
+    }
+
+	handleCoinChangeDelete = (selectedCoinOptionDelete) => {
+		
 		this.setState({
-			selectedCoinOption: selectedCoinOption.label
+			selectedCoinOptionDelete: selectedCoinOptionDelete.value
 		})
 
-		console.log("a", this.state.selectedCoinOption, "b", selectedCoinOption.label)
+		console.log("a", this.state.selectedCoinOptionDelete, "b", selectedCoinOptionDelete.label)
 	}
 
-	handleShareChange = event => { 
+	handleShareChangeDelete = event => { 
 	    const { name, value } = event.target;
+
+	    try {
+	    	if (!isNaN(parseFloat(event.target.value)) && isFinite(event.target.value)) {
+	    		throw "is a number"
+	    	}
+	    	else {
+	    		console.log("not number")
+	    	}
+	    }
+	    catch(err) {
+	    	console.log(err)
+	    }
+
+	    for (var i = 0; i < this.state.userCoinsAndShares.length; i++) {
+	    	if (this.state.userCoinsAndShares[i].cryptoId == this.state.selectedCoinOptionDelete) {
+	    		try {
+	    			if (this.state.userCoinsAndShares[i].shares < event.target.value) {
+	    				throw ("Quantity to be deleted is larger than quantity available in your wallet")
+	    			}	
+		    	}
+	    		catch(err) {
+	    			console.log(err)
+	    		}
+	    	}
+	    }
 
 	    this.setState({
 	      [name]: value
 	    });
+	    console.log(this.state.noOfSharesDelete)
 	 }; 
+
+	
+	handleDelete = event => {
+	 	event.preventDefault()
+
+		// let updatedShares;
+	 // 	for (var i = 0; i < this.state.userCoinsAndShares.length; i++) {
+	 // 		if (this.state.userCoinsAndShares[i].cryptoId == this.state.selectedCoinOptionDelete) {
+		// 	 	updatedShares = parseFloat(this.state.userCoinsAndShares[i].shares) - parseFloat(this.state.noOfSharesDelete)
+		// 		console.log(updatedShares)
+		// 	}
+		// }
+
+	 	console.log(this.state.userId, this.state.selectedCoinOptionDelete, this.state.noOfSharesDelete)
+	 	API.updateCoinFromUser(this.state.userId, this.state.selectedCoinOptionDelete, this.state.noOfSharesDelete)
+	 		.then(res => {
+		 		console.log("done deleting", res)
+		 		window.location.href = "/manage-account"
+		 	}).catch(err => {
+		 		console.log(err)
+		 	})
+	}
+
 
 
 
@@ -67,29 +163,32 @@ class DeleteCoin extends Component {
 
 				<div className="row">
 					<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-						<h3>Delete Cryptocurrency</h3>
+						<h3 id="delete-coin-heading">Delete Cryptocurrency</h3>
 					</div>
 				</div>
 
 				<div className="row">
-					<div className="col-xs-12 col-sm-12 col-md-12">
+					<div className="col-xs-12 col-sm-12 col-md-12 select-dropdown">
 						<Select
 							name="form-field-name"
-							value={this.state.selectedCoinOption}
-							onChange={this.handleCoinChange}
-							options={this.state.coinOptions}
+							value={this.state.selectedCoinOptionDelete}
+							onChange={this.handleCoinChangeDelete}
+							options={this.state.coinOptionsDelete}
 						/>
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-xs-12 col-sm-12 col-md-12">
-						<Input
-	                      	value={this.state.noOfShares}
-	                     	onChange={this.handleShareChange}
-	                      	name="noOfShares"
-	                      	placeholder="Quantity"
-	                    />
-					</div>
+					<form  onSubmit={this.handleDelete}>
+						<div className="col-xs-12 col-sm-12 col-md-12">
+							<Input
+		                      	value={this.state.noOfSharesDelete}
+		                     	onChange={this.handleShareChangeDelete}
+		                      	name="noOfSharesDelete"
+		                      	placeholder="Quantity"
+		                    />
+		                    <input type="submit" value="Delete"/>
+						</div>
+					</form>
 				</div>
 			</div>
 		)

@@ -15,7 +15,7 @@ class CoinSummary extends Component {
 			userId: 1,
 			userCoinsSymbol: [],
             userCoinsFullName: [],
-			userCoinsShare: [],
+			userCoinsAndShares: [],
 			coinName: "",
 			coinSymbol: "",
 			coinValue: 0,
@@ -67,9 +67,9 @@ class CoinSummary extends Component {
     			return res.data
     		}).then(result => {
     			this.setState({
-    				userCoinsShare: result
+    				userCoinsAndShares: result
     			})
-
+    			console.log(result)
     			let coinArr = []
     			let coinArrFullName = []
                 let shareArr = []
@@ -82,17 +82,17 @@ class CoinSummary extends Component {
 
 		    	this.setState({
 		    		userCoinsSymbol: coinArr,
-                    userCoinsFullName: coinArrFullName,
-                    userCoinsShare: shareArr
+                    userCoinsFullName: coinArrFullName
 		    	})
+		    	console.log(coinArr)
     		}).catch(err => {
     			console.log(err)
     		})
     }
 
-    handleCoinClick = (id, symbol) => {
+    handleCoinClick = (name, id) => {
     	this.setState({
-    		coinName: id,
+    		coinName: name,
     		coinSymbol: id
     	})
     	console.log("clicked", this.state.coinName, this.state.coinSymbol)
@@ -128,11 +128,12 @@ class CoinSummary extends Component {
 							<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						 	<div className="col-xs-10 col-sm-10 col-md-8 text-center">
 							 	<ul>
-									{this.state.userCoins.map(coin => {
+									{this.state.userCoinsAndShares.map(coin => {
 										return <CoinList 
-													key={coin}
-													id={coin}
-													handleCoinClick={this.handleCoinClick}>{coin}
+													key={coin.cryptoSymbol}
+													id={coin.cryptoSymbol}
+													data={coin.cryptoName}
+													handleCoinClick={this.handleCoinClick}>{coin.cryptoName}
 												</CoinList>
 									})}
 								</ul>

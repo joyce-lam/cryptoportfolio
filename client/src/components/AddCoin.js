@@ -11,18 +11,22 @@ class AddCoin extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			userId: 1,
-			coinOptions: [],
-			selectedCoinOption: "",
-			noOfShares: ""
+			userId: props.userId,
+			coinOptionsAdd: [],
+			selectedCoinOptionAdd: "",
+			noOfSharesAdd: ""
 		}
 
 		this.getCoinOptions = this.getCoinOptions.bind(this)
+		this.handleCoinChangeAdd = this.handleCoinChangeAdd.bind(this)
+		this.handleShareChangeAdd = this.handleShareChangeAdd.bind(this)
+		this.handleAdd = this.handleAdd.bind(this)
 
 	}
 
 	componentDidMount() {
 		this.getCoinOptions()
+		console.log(this.state.userId)
 	}
 
 	getCoinOptions = () => {
@@ -30,7 +34,7 @@ class AddCoin extends Component {
 			.then(res => {
 				console.log(res.data)
 				this.setState({
-					coinOptions: res.data
+					coinOptionsAdd: res.data
 				})
 				return res.data
 			}).catch(err => {
@@ -38,24 +42,46 @@ class AddCoin extends Component {
 			})
 	}
 
-
-
-	handleCoinChange = (selectedCoinOption) => {
+	handleCoinChangeAdd = (selectedCoinOptionAdd) => {
 		this.setState({
-			selectedCoinOption: selectedCoinOption.label
+			selectedCoinOptionAdd: selectedCoinOptionAdd.value
 		})
-
-		console.log("a", this.state.selectedCoinOption, "b", selectedCoinOption.label)
+		console.log("a", this.state.selectedCoinOptionAdd, "b", selectedCoinOptionAdd.label, "c", selectedCoinOptionAdd.value)
 	}
 
-	handleShareChange = event => { 
+	handleShareChangeAdd = event => { 
 	    const { name, value } = event.target;
+
+	    try {
+	    	if (!isNaN(parseFloat(event.target.value)) && isFinite(event.target.value)) {
+	    		throw "is a number"
+	    	}
+	    	else {
+	    		console.log("not number")
+	    	}
+	    }
+	    catch(err) {
+	    	console.log(err)
+	    }
 
 	    this.setState({
 	      [name]: value
 	    });
+	    console.log("eventname", event.target.name, "eventvalue", event.target.value)
 	 }; 
 
+	handleAdd = event => {
+		event.preventDefault()
+		//console.log("abc", this.state.selectedCoinOptionAdd, "def", this.state.noOfSharesAdd)
+
+		API.addCoinToUser(this.state.userId, this.state.selectedCoinOptionAdd, this.state.noOfSharesAdd)
+			.then(res => {
+				console.log("done adding", res.data)
+				window.location.href = "/manage-account"
+			}).catch(err => {
+				console.log(err)
+			})
+	}
 
 
 	render() {
@@ -64,32 +90,34 @@ class AddCoin extends Component {
 
 		return (
 			<div id="add-coin-card">
-
 				<div className="row">
 					<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-						<h3>Add Cryptocurrency</h3>
+						<h3  id="add-coin-heading">Add Cryptocurrency</h3>
 					</div>
 				</div>
 
 				<div className="row">
-					<div className="col-xs-12 col-sm-12 col-md-12">
+					<div className="col-xs-12 col-sm-12 col-md-12 select-dropdown" >
 						<Select
 							name="form-field-name"
-							value={this.state.selectedCoinOption}
-							onChange={this.handleCoinChange}
-							options={this.state.coinOptions}
+							value={this.state.selectedCoinOptionAdd}
+							onChange={this.handleCoinChangeAdd}
+							options={this.state.coinOptionsAdd}
 						/>
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-xs-12 col-sm-12 col-md-12">
-						<Input
-	                      	value={this.state.noOfShares}
-	                     	onChange={this.handleShareChange}
-	                      	name="noOfShares"
-	                      	placeholder="Quantity"
-	                    />
-					</div>
+					<form  onSubmit={this.handleAdd}>
+						<div className="col-xs-12 col-sm-12 col-md-12">
+							<Input
+		                      	value={this.state.noOfSharesAdd}
+		                     	onChange={this.handleShareChangeAdd}
+		                      	name="noOfSharesAdd"
+		                      	placeholder="Quantity"
+		                    />
+		                    <input type="submit" value="Add"/>
+						</div>
+        			</form>
 				</div>
 			</div>
 		)

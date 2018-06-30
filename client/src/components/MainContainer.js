@@ -58,8 +58,8 @@ class MainContainer extends Component {
 		this.setState({open: open});
 	}
 
-	menuButtonClick(ev) {
-		ev.preventDefault();
+	menuButtonClick(event) {
+		event.preventDefault();
 		this.onSetOpen(!this.state.open);
 	}
 

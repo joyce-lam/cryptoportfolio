@@ -145,7 +145,7 @@
 /*account summary table*/
 
 #portfolio-table {
-  padding: 50px;
+  padding: 50px 150px 100px 150px;
   text-align: center;
 }
 
@@ -240,8 +240,38 @@ ul {
 /*add + delete coin*/
 #add-coin-card {
   padding: 30px;
+  border: 2px solid #9BD9FF;
+  border-radius: 8px;
+  margin-top: 50px;
 }
 
 #delete-coin-card {
   padding: 30px;
+  border: 2px solid #9BD9FF;
+  border-radius: 8px;
+  margin-top: 50px;
+}
+
+.Select-control {
+  height: 120%;
+}
+
+.select-dropdown {
+  margin: 20px 0 20px 0;
+}
+
+#add-coin-heading, #delete-coin-heading {
+  font-size: 30px;
+  margin: -50px 10px 50px 10px;
+  text-align: center;
+  /*border: 2px solid #9BD9FF;*/
+  border-radius: 8px;
+  background-color: #CFFFF5;
+  color: #000000;
+  line-height: 2;
+  vertical-align: middle;
+}
+
+#asset-table {
+  margin-top: 50px;
 }

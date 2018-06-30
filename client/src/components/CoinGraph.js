@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 
 import { LineChart } from "react-easy-chart"
-// import Media from "react-media"
 import MediaQuery from "react-responsive"
 import ReactTable from "react-table"
 
@@ -23,6 +22,7 @@ class CoinGraph extends Component {
 		this.getHistoricalHour = this.getHistoricalHour.bind(this)
 		this.getHistoricalDay = this.getHistoricalDay.bind(this)
 		this.handleClick = this.handleClick.bind(this)
+		this.handleClick1 = this.handleClick1.bind(this)
 		
 	}
 
@@ -49,7 +49,8 @@ class CoinGraph extends Component {
 		const { name, value } = e.target;
 
 	    this.setState({
-	      [name]: value
+	      [name]: value,
+	      active: this.state.active ? false : true
 	    });
 	    // console.log(this.state.dateTimeRange)
 	    this.getHistoricalDay(this.state.coinSymbol, this.state.dateTimeRange)
@@ -230,7 +231,7 @@ class CoinGraph extends Component {
 					<div className="row">
 						<div className="col-12">
 							<div className="btn-group btn-group-sm" role="group"  style={{backgroundColor:this.state.bgColor}} >
-								 <button type="button" className="btn btn-success active" name="dateTimeRange" value="12" onClick={(e) => this.handleClick(e)}>1 Day</button>
+								 <button type="button" className="btn btn-success" name="dateTimeRange" value="12" onClick={(e) => this.handleClick(e)}>1 Day</button>
 								 <button type="button" className="btn btn-success" name="dateTimeRange" value="3" onClick={(e) => this.handleClick1(e)}>3 Days</button>
 								 <button type="button" className="btn btn-success" name="dateTimeRange" value="7" onClick={(e) => this.handleClick1(e)}>1 Week</button>
 								 <button type="button" className="btn btn-success" name="dateTimeRange" value="30" onClick={(e) => this.handleClick1(e)}>1 Month</button>
@@ -241,7 +242,7 @@ class CoinGraph extends Component {
 					</div>
 					<div className="row">
 						<div className="col-12">
-							<MediaQuery minWidth={400} maxWidth={599}>
+							<MediaQuery minWidth={100} maxWidth={749}>
 								<ReactTable
 									className="striped"
 									data={this.state.tableData}
@@ -253,29 +254,33 @@ class CoinGraph extends Component {
 									resizable={true}
 								/>
 							</MediaQuery>
-							<MediaQuery minWidth={600} maxWidth={768}>
+							<MediaQuery minWidth={750} maxWidth={768}>
 								<LineChart
 									axes
-								    axisLabels={{x: 'Time', y: 'Price'}}
+								    axisLabels={{x: '', y: 'Price'}}
 								    style={{ '.label': { fill: 'black' } }}
+								    margin={{top: 20, right: 0, bottom: 15, left: 55}}
 								    xType={"text"}  
 								    grid
 									width={450}
 									height={280}
 								    data={this.state.linechartData}
 								  />
+								  <p>Time</p>
 							</MediaQuery>
 							<MediaQuery minWidth={769}>
 								<LineChart
 									axes
-								    axisLabels={{x: 'Time', y: 'Price'}}
+								    axisLabels={{x: '', y: 'Price'}}
 								    style={{ '.label': { fill: 'black' } }}
+								    margin={{top: 20, right: 0, bottom: 15, left: 55}}
 								    xType={"text"}  
 								    grid
 									width={520}
 									height={380}
 								    data={this.state.linechartData}
 								  />
+								  <p>Time</p>
 							</MediaQuery>
 						</div>
 					</div>
