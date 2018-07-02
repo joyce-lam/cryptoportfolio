@@ -1,6 +1,8 @@
 // const utils = require("../utils");
 const request = require("request");
 const rq = require("request-promise")
+const db = require("../models");
+const Op = db.Sequelize.Op;
 
 module.exports = {
 	getTopNBy24HVol: function(req, res) {
@@ -24,12 +26,31 @@ module.exports = {
       		return getTop10AllData(top10, top10FullName)
       		
 		}).then(result => {
-			console.log("res", result)
+			//console.log("res", result)
 			return res.json(result)
 		})
 		.catch(err => {
 			console.log(err)
 		})
+	},
+	getAll: function(req, res) {
+
+		db.Cryptocurrency.findAll()
+		.then(dbCrypto => {
+			//console.log("abc", dbCrypto[0].dataValues)
+
+			let optionsArr = []
+			dbCrypto.forEach((one, ind) => {
+				let optionObj = {}
+				optionObj["value"] = dbCrypto[ind].dataValues.id
+				optionObj["label"] = dbCrypto[ind].dataValues.name
+				optionsArr.push(optionObj)
+			})
+			return res.json(optionsArr)
+		}).catch(err => {
+			res.status(500).json(err)
+		})
+
 	}
 }
 
@@ -61,8 +82,7 @@ getTop10AllData = (top10, fullNames) => {
 	      			dataObj["marketCap"] = result.DISPLAY[one].USD.MKTCAP
 	      			dataArray.push(dataObj)
 	      		})
-
-	      		console.log("data", dataArray)	
+	      		//console.log("data", dataArray)	
 	      		return dataArray
 
 			}).catch(err => {

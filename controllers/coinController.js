@@ -6,7 +6,7 @@ module.exports = {
 	findCurrentPrice: function(req, res) {
 		
 		rq({
-			url: `https://min-api.cryptocompare.com/data/price?fsym=${req.params.symbol}&tsyms=USD`,
+			url: `https://min-api.cryptocompare.com/data/price?fsym=${req.query.symbol}&tsyms=USD`,
 			headers: {
 				 "Accept": "application/json",
 			     "Content-Type": "application/json"
@@ -15,19 +15,17 @@ module.exports = {
 			json: true
 
 			}).then(result => {
-
-				console.log("usd", result["USD"])
+				//console.log("usd", result["USD"])
 				result = result["USD"]
-
 				return res.json(result)	
 			})
 			.catch(err => {
 				console.log(err)
 			})
 	},
-	findPastHour: function(req, res) {
+	findPastHours: function(req, res) {
 		rq({
-			url: `https://min-api.cryptocompare.com/data/histohour?fsym=${req.params.symbol}&tsym=USD&limit=${req.params.dateTimeRange}`,
+			url: `https://min-api.cryptocompare.com/data/histohour?fsym=${req.query.symbol}&tsym=USD&limit=${req.query.dateTimeRange}&aggregate=2`,
 			headers: {
 				 "Accept": "application/json",
 			     "Content-Type": "application/json"
@@ -50,15 +48,15 @@ module.exports = {
 	      			dataArray.push(obj)
 	      			// console.log(dataArray)
 	      		})
-	      		console.log(dataArray)
+	      		//console.log(dataArray)
 	  	 		return res.json(dataArray)
 			}).catch(err => {
 				console.log(err)
 			})
 	},
-	findPastDay: function(req, res) {
+	findPastDays: function(req, res) {
 		rq({
-			url: `https://min-api.cryptocompare.com/data/histoday?fsym=${req.params.symbol}&tsym=USD&limit=${req.params.dateTimeRange}`,
+			url: `https://min-api.cryptocompare.com/data/histoday?fsym=${req.query.symbol}&tsym=USD&limit=${req.query.dateTimeRange}`,
 			headers: {
 				 "Accept": "application/json",
 			     "Content-Type": "application/json"
@@ -82,7 +80,7 @@ module.exports = {
 	      			dataArray.push(obj)
 	      			// console.log(dataArray)
 	      		})	
-	      		console.log(dataArray)
+	      		//console.log(dataArray)
 	      		return res.json(dataArray)
 
 			}).catch(err => {
