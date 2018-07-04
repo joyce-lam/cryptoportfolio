@@ -4,8 +4,12 @@
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "server.js",
   "scripts": {
+    "server": "node server.js",
+    "client": "node scripts/start-client.js",
+    "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "build": "node scripts/build.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "installDeps": "yarn && cd client && yarn"
   },
   "repository": {
     "type": "git",
@@ -34,5 +38,12 @@
     "request-promise": "^4.2.2",
     "sequelize": "^4.37.10",
     "validator": "^10.4.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.11.0"
+  },
+  "engines": {
+    "node": ">=9.3.0"
   }
 }
