@@ -1,18 +1,22 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 
-import IndividualCoin from "./IndividualCoin"
-import CoinList	from "./CoinList"
+import IndividualCoin from "../components/IndividualCoin";
+import CoinList	from "../components/CoinList";
 
-import Icon from 'react-icons-kit'
-import {play3} from 'react-icons-kit/icomoon/play3'
+import API from "../utils/API";
+import Auth from '../utils/Auth';
 
-import API from "../utils/API"
+import Icon from "react-icons-kit";
+import {play3} from "react-icons-kit/icomoon/play3";
+import decode from "jwt-decode";
+
 
 class CoinSummary extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
-			userId: 1,
+			userId: "",
+			token: "",
 			userCoinsSymbol: [],
             userCoinsFullName: [],
 			userCoinsAndShares: [],
@@ -21,72 +25,53 @@ class CoinSummary extends Component {
 			coinValue: 0,
 			coinAmount: 0,
 			random: "random"
-		}
+		};
 
-		this.getAccountInfo = this.getAccountInfo.bind(this)
-		this.getPrice = this.getPrice.bind(this)
+		this.getProfile = this.getProfile.bind(this);
+		this.getAccountInfo = this.getAccountInfo.bind(this);
+		this.getPrice = this.getPrice.bind(this);
 	}
 
-	// handleOpenClick() {
-	// 	this.setState ({
-	// 		selected: true,
-	// 		width: 200,
-	// 		marginLeft: 200
-	// 	})
-	// }
-
-	// handleCloseClick() {
-	// 	this.setState ({
-	// 		selected: true,
-	// 		width: 0,
-	// 		marginLeft: 0
-	// 	})
-	// 	console.log(this.props)
-	// }
-
-	// <div className="sidenav" style={{width:this.state.width}}>
-	// 	<div  id="x-icon" >
-	// 		<Icon size={28} icon={x} onClick={this.handleCloseClick} />
-	// 	</div>
-	// 	<div>
-	// 		<Icon size={28} icon={user} id="user-icon" />
-	// 	</div>
-	// 	<a href="/home">Home</a>
-	// 	<a href="/coin">Coin</a>
-		
-	// </div>
-	// <Icon size={32} icon={menu} id="menu-icon" onClick={this.handleOpenClick}/>
 	componentDidMount() {
-		this.getAccountInfo("1")
+		this.getProfile();
 	}
 
-	getAccountInfo = (userId) => {
-    	API.getUserCrypto(userId)
+	getProfile() {
+        var token = Auth.getToken();
+        var profile = decode(token);
+
+        this.setState({
+          userId: profile.sub,
+          token: token
+        });
+
+        this.getAccountInfo(profile.sub, token);
+    }
+
+	getAccountInfo = (userId, token) => {
+    	API.getUserCrypto(userId, token)
     		.then(res => {
-    			console.log(res.data)
-    			return res.data
+    			return res.data;
     		}).then(result => {
     			this.setState({
     				userCoinsAndShares: result
-    			})
-    			console.log(result)
-    			let coinArr = []
-    			let coinArrFullName = []
-                let shareArr = []
+    			});
 
+    			let coinArr = [];
+    			let coinArrFullName = [];
+                let shareArr = [];
     			result.forEach((one, ind) => {
-                    coinArrFullName.push(result[ind].cryptoName)
-    				coinArr.push(result[ind].cryptoSymbol)
-    				shareArr.push(result[ind].shares)
-    			})
+                    coinArrFullName.push(result[ind].cryptoName);
+    				coinArr.push(result[ind].cryptoSymbol);
+    				shareArr.push(result[ind].shares);
+    			});
 
 		    	this.setState({
 		    		userCoinsSymbol: coinArr,
                     userCoinsFullName: coinArrFullName
-		    	})
-		    	console.log(coinArr)
+		    	});
     		}).catch(err => {
-    			console.log(err)
+    			console.log(err);
     		})
     }
 
@@ -94,28 +79,24 @@ class CoinSummary extends Component {
     	this.setState({
     		coinName: name,
     		coinSymbol: id
-    	})
-    	console.log("clicked", this.state.coinName, this.state.coinSymbol)
+    	});
 
-    	this.getPrice(this.state.coinSymbol)
+    	this.getPrice(this.state.coinSymbol, this.state.token);
     }
 
-    getPrice = symbol => {
-		API.getCoinCurrentPrice(symbol)
+    getPrice = (symbol, token) => {
+		API.getCoinCurrentPrice(symbol,token)
 			.then(res => {
-				console.log(res.data)
 				this.setState({
 					coinValue: res.data
-				})
-				return res.data
+				});
+				return res.data;
 			}).catch(err => {
-				console.log(err)
+				console.log(err);
 			})
 	}
 
-
 	render() {
-
 		return (
 				<div>				
 					<div className="main">
@@ -144,6 +125,7 @@ class CoinSummary extends Component {
 							<div className="col-xs-12 col-sm-12 col-md-12 text-center">
 								{this.state.coinName.length ? (
 									<IndividualCoin 
+										token={this.state.token}
 										random={this.state.random}
 										coinName={this.state.coinName}
 										coinSymbol={this.state.coinSymbol}
@@ -170,4 +152,4 @@ class CoinSummary extends Component {
 	}
 }
 
-export default CoinSummary
+export default CoinSummary;

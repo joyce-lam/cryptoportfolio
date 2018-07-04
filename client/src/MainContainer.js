@@ -5,11 +5,11 @@ import {
 	Link
 } from "react-router-dom"
 
-import SidebarContent from "./SidebarContent"
-import Landing from "./Landing"
-import AccountSummary from "./AccountSummary"
-import CoinSummary from "./CoinSummary"
-import ManageAccount from "./ManageAccount"
+import SidebarContent from "./components/SidebarContent"
+import Landing from "./pages/Landing"
+import AccountSummary from "./pages/AccountSummary"
+import CoinSummary from "./pages/CoinSummary"
+import ManageAccount from "./pages/ManageAccount"
 
 import Icon from 'react-icons-kit'
 import {menu} from 'react-icons-kit/icomoon/menu'

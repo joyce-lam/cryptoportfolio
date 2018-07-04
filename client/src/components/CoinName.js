@@ -1,5 +1,4 @@
-import React from "react"
-
+import React from "react";
 
 export default function CoinName (props) {
 	return (
@@ -9,4 +8,4 @@ export default function CoinName (props) {
 			</div>
 		</div>
 	)
-}
+};

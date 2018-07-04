@@ -1,6 +1,7 @@
-import React from "react"
-import Icon from 'react-icons-kit'
-import {coinDollar} from 'react-icons-kit/icomoon/coinDollar'
+import React from "react";
+
+import Icon from "react-icons-kit";
+import {coinDollar} from "react-icons-kit/icomoon/coinDollar";
 
 const CoinList = props => (
 		<div className="row">
@@ -15,7 +16,6 @@ const CoinList = props => (
 			</div>
 			<div className="col-xs-5 col-sm-5 col-md-4"></div>
 		</div>
-)
+);
 
-
-export default CoinList
+export default CoinList;
