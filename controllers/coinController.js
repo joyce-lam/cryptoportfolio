@@ -4,7 +4,6 @@ const rq = require("request-promise");
 
 module.exports = {
 	findCurrentPrice: function(req, res) {
-		
 		rq({
 			url: `https://min-api.cryptocompare.com/data/price?fsym=${req.query.symbol}&tsyms=USD`,
 			headers: {
@@ -15,12 +14,11 @@ module.exports = {
 			json: true
 
 			}).then(result => {
-				//console.log("usd", result["USD"])
 				result = result["USD"]
-				return res.json(result)	
+				return res.json(result);
 			})
 			.catch(err => {
-				console.log(err)
+				console.log(err);
 			})
 	},
 	findPastHours: function(req, res) {
@@ -34,24 +32,19 @@ module.exports = {
 			json: true
 
 			}).then(result => {
-				console.log(result.Data)
-
-	      		let priceData = result.Data
-				let dataArray = []
+	      		let priceData = result.Data;
+				let dataArray = [];
 	      		priceData.map(singleData => {
-	      			let obj = {}
-	      			let date = new Date(singleData.time*1000)
-	      			let hours = date.getHours()
-	      			// console.log(hours)
-	      			obj["x"] = hours + ":00"
-	      			obj["y"] = singleData.high
-	      			dataArray.push(obj)
-	      			// console.log(dataArray)
+	      			let obj = {};
+	      			let date = new Date(singleData.time*1000);
+	      			let hours = date.getHours();
+	      			obj["x"] = hours + ":00";
+	      			obj["y"] = singleData.high;
+	      			dataArray.push(obj);
 	      		})
-	      		//console.log(dataArray)
-	  	 		return res.json(dataArray)
+	  	 		return res.json(dataArray);
 			}).catch(err => {
-				console.log(err)
+				console.log(err);
 			})
 	},
 	findPastDays: function(req, res) {
@@ -65,26 +58,21 @@ module.exports = {
 			json: true
 
 			}).then(result => {
-
-				let priceData = result.Data
-				let dataArray = []
+				let priceData = result.Data;
+				let dataArray = [];
 	      		priceData.map(singleData => {
-	      			let obj = {}
-	      			let date = new Date(singleData.time*1000)
-	      			let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-	      			let month = months[date.getMonth()]
-	      			let day = date.getDate()
-	      			// console.log(month, day)
-	      			obj["x"] = `${month} ${day}`
-	      			obj["y"] = singleData.high
-	      			dataArray.push(obj)
-	      			// console.log(dataArray)
+	      			let obj = {};
+	      			let date = new Date(singleData.time*1000);
+	      			let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	      			let month = months[date.getMonth()];
+	      			let day = date.getDate();
+	      			obj["x"] = `${month} ${day}`;
+	      			obj["y"] = singleData.high;
+	      			dataArray.push(obj);
 	      		})	
-	      		//console.log(dataArray)
-	      		return res.json(dataArray)
-
+	      		return res.json(dataArray);
 			}).catch(err => {
-				console.log(err)
+				console.log(err);
 			})
 	}
-}
+};

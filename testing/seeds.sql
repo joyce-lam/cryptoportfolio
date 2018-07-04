@@ -53,8 +53,8 @@ INSERT INTO crypto_db.Cryptocurrencies (name, symbol, imageUrl, createdAt, updat
 ("Decentraland", "MANA", "www.cryptocompare.com/media/1383903/mana.png", "2018-06-01 00:00:00", "2018-06-01 00:00:00");
 
 
-INSERT INTO crypto_db.Users (firstName, lastName, password, email, createdAt, updatedAt) VALUES
-("Joyce", "Lam", "abcde", "joyzlsn@gmail.com", "2018-06-01 00:00:00", "2018-06-01 00:00:00");
+INSERT INTO crypto_db.Users (name, email, password, createdAt, updatedAt) VALUES
+("Joyce Lam", "joyzlsn@gmail.com", "abcde", "2018-06-01 00:00:00", "2018-06-01 00:00:00");
 
 
 INSERT INTO crypto_db.UserCryptocurrencies (share, CryptocurrencyId, UserId, createdAt, updatedAt) VALUES

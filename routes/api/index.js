@@ -1,3 +1,4 @@
+const express = require("express");
 const router = require("express").Router();
 const usersRoutes = require("./users");
 const coinsRoutes = require("./coins");

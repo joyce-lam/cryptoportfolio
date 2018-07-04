@@ -5,9 +5,9 @@ const coinsController = require("../../controllers/coinsController");
 
 // Matches with "/api/coins/xxxxx"
 router.route("/recentTopN")
-	.get(coinsController.getTopNBy24HVol)
+	.get(coinsController.getTopNBy24HVol);
 
 router.route("/all")
-	.get(coinsController.getAll)
+	.get(coinsController.getAll);
 
 module.exports = router;

@@ -1,82 +1,57 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-var session = require("express-session");
-// var passport = require("passport");
-// var passportSetup = require("./config/passport-setup");
-const routes = require("./routes");
+const express = require("express");
 require("dotenv").config();
 
-var PORT = process.env.PORT || 5000;
+const app = express();
 
-var app = express();
-
-var db = require("./models");
+const PORT = process.env.PORT || 5000;
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("./client/build"));
 
+const bodyParser = require("body-parser");
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(bodyParser.urlencoded({ extended: false }));
 //parse application/text
 app.use(bodyParser.text());
 // parse application/json
 app.use(bodyParser.json());
 
 
-// enable CORS so that browsers don't block requests.
+// enable CORS so that browsers don"t block requests.
 app.use((req, res, next) => {
-  //access-control-allow-origin http://localhost:3000
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE'); 
-  next();
+  	res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+  	res.header("Access-Control-Allow-Credentials", "true");
+  	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Authorization, Accept");
+  	res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE"); 
+  	next();
 });
 
-
-
-
-app.use(cookieParser());
-
-app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: false,
-	cookie: {
-		expires: 60 *1000,
-		httpOnly: false
-	}
-}));
-
+// app.use(passport.session());
+const passport = require("passport");
+const localSignupStrategy = require("./passport/local-signup");
+const localLoginStrategy = require("./passport/local-login");
+passport.use("local-signup", localSignupStrategy);
+passport.use("local-login", localLoginStrategy);
 // Initialize Passport and restore authentication state, if any, from the
 // session.
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
 
 
-// Import routes and give the server access to them.
-// var authRoutes = require("./routes/auth-routes");
-// app.use("/auth", authRoutes);
+const authCheckMiddleware = require("./middleware/auth-check");
+app.use("/api/users", authCheckMiddleware);
+app.use("/api/coin", authCheckMiddleware);
+app.use("/api/coins/all", authCheckMiddleware);
 
-//var apiRoutes = require("./routes/api-routes.js");
-//app.use("/api", apiRoutes);
 
-// var htmlRoutes = require("./routes/html-routes.js");
-// app.use("/", htmlRoutes);
-
-// require("./routes/api-routes.js")(app);
-
-//require("./routes/html-routes.js")(app);
-
+const routes = require("./routes");
 app.use(routes)
 
+
+const db = require("./models");
 // Syncing our sequelize models and then starting our Express app
-// =============================================================
 db.sequelize.sync().then(function(err) {
-  app.listen(PORT, function() {
-    console.log("App listening on PORT " + PORT);
-  });
+  	app.listen(PORT, function() {
+    	console.log("App listening on PORT " + PORT);
+  	});
 });
 
