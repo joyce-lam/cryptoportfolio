@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 8000;
 
 // Serve static content for the app from the "public" directory in the application directory.
-app.use(express.static("./client/build"));
+app.use(express.static("./react-ui/build"));
 
 const bodyParser = require("body-parser");
 // parse application/x-www-form-urlencoded
