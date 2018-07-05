@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 
 import SummaryChart from "../components/SummaryChart";
 import CoinCard from "../components/CoinCard";
@@ -162,16 +161,6 @@ class AccountSummary extends Component {
                             />
 						</div>
 						<div className="col-1"></div>
-					</div>
-					<div className="row">
-						<div className="col-xs-1 col-sm-1 col-md-2"></div>
-						<div className="col-xs-3 col-sm-3 col-md-1 text-center">
-							<Icon size={32} icon={play3} id="arrow-icon" />
-						</div>
-						<div className="col-xs-7 col-sm-7 col-md-7">
-							<Link to="/coins"><h3>View Individual Cryptocurreny</h3></Link>
-						</div>
-						<div className="col-xs-1 col-sm-1 col-md-2"></div>
 					</div>
 				</div>
 

@@ -6,7 +6,6 @@ import API from "../utils/API";
 
 import Select from "react-select";
 import "react-select/dist/react-select.css";
-//import PropTypes from "prop-types";
 
 
 class AddCoin extends Component {

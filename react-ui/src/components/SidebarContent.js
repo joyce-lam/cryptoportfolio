@@ -45,7 +45,7 @@ class SidebarContent extends Component {
 	                  <Link to="/signup">Sign up</Link>
 	                </div>
 	            )}
-				</div>
+			</div>
 		)
 	}
 }
