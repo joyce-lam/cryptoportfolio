@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import {
     BrowserRouter,
-    Route,
-    Redirect,
     Link
 } from "react-router-dom";
 
@@ -182,7 +180,6 @@ class AccountSummary extends Component {
     					</div>
     				</div>
                 </BrowserRouter>
-
 			)
 	}
 }

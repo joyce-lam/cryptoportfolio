@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import {
+    BrowserRouter,
+    Link
+} from "react-router-dom";
 
 import IndividualCoin from "../components/IndividualCoin";
 import CoinList	from "../components/CoinList";
@@ -14,9 +18,13 @@ import decode from "jwt-decode";
 class CoinSummary extends Component {
 	constructor(props) {
 		super(props);
+
+		const token = Auth.getToken();
+        const profile = decode(token);
+
 		this.state = {
-			userId: "",
-			token: "",
+			userId: profile.sub,
+            token: token,
 			userCoinsSymbol: [],
             userCoinsFullName: [],
 			userCoinsAndShares: [],
@@ -27,26 +35,13 @@ class CoinSummary extends Component {
 			random: "random"
 		};
 
-		this.getProfile = this.getProfile.bind(this);
 		this.getAccountInfo = this.getAccountInfo.bind(this);
 		this.getPrice = this.getPrice.bind(this);
 	}
 
 	componentDidMount() {
-		this.getProfile();
+		this.getAccountInfo(this.state.userId, this.state.token)
 	}
-
-	getProfile() {
-        var token = Auth.getToken();
-        var profile = decode(token);
-
-        this.setState({
-          userId: profile.sub,
-          token: token
-        });
-
-        this.getAccountInfo(profile.sub, token);
-    }
 
 	getAccountInfo = (userId, token) => {
     	API.getUserCrypto(userId, token)
@@ -98,7 +93,7 @@ class CoinSummary extends Component {
 
 	render() {
 		return (
-				<div>				
+				<BrowserRouter>				
 					<div className="main">
 						<div className="row">					
 							<div className="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -136,8 +131,18 @@ class CoinSummary extends Component {
 									)}
 							</div>
 						</div>
+						<div className="row">
+							<div className="col-xs-1 col-sm-1 col-md-2"></div>
+							<div className="col-xs-3 col-sm-3 col-md-1 text-center">
+								<Icon size={32} icon={play3} id="arrow-icon" />
+							</div>
+							<div className="col-xs-7 col-sm-7 col-md-7">
+								<Link to="/home"><h3>Back to Your Portfolio</h3></Link>
+							</div>
+							<div className="col-xs-1 col-sm-1 col-md-2"></div>
+						</div>
 					</div>
-				</div>
+				</BrowserRouter
 			)
 	}
 }

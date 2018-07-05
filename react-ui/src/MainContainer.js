@@ -1,41 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 import {
 	BrowserRouter,
 	Route,
 	Link
-} from "react-router-dom"
+} from "react-router-dom";
 
-import SidebarContent from "./components/SidebarContent"
-import Landing from "./pages/Landing"
-import AccountSummary from "./pages/AccountSummary"
-import CoinSummary from "./pages/CoinSummary"
-import ManageAccount from "./pages/ManageAccount"
+import SidebarContent from "./components/SidebarContent";
+import Landing from "./pages/Landing";
+import AccountSummary from "./pages/AccountSummary";
+import CoinSummary from "./pages/CoinSummary";
+import ManageAccount from "./pages/ManageAccount";
 
-import Icon from 'react-icons-kit'
-import {menu} from 'react-icons-kit/icomoon/menu'
-import Sidebar from 'react-sidebar'
+import Icon from "react-icons-kit";
+import {menu} from "react-icons-kit/icomoon/menu";
+import Sidebar from "react-sidebar";
 
-// class MainContainer extends Component {
-
-
-// 	render() {
-// 		return (
-// 			<BrowserRouter>
-// 		      <div>
-// 		      	<Route exact path="/" component={Landing} />
-// 		        <Route exact path="/home" component={HomeSummary} />
-// 		        <Route exact path="/coin" component={CoinSummary} />
-// 		      </div>
-// 		  	</BrowserRouter>
-			
-// 		)
-// 	}
-// }
-
-// export default MainContainer
 
 class MainContainer extends Component {
-
 	constructor(props) {
 		super(props);
 
@@ -71,7 +52,7 @@ class MainContainer extends Component {
 		const sidebarProps = {
 			sidebar: sidebar,
 			docked: this.state.docked,
-			sidebarClassName: 'custom-sidebar-class',
+			sidebarClassName: "custom-sidebar-class",
 			open: this.state.open,
 			touch: this.state.touch,
 			shadow: this.state.shadow,
