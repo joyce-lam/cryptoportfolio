@@ -1,12 +1,16 @@
 # CryptoPortfolio
 
 Upon landing, an user is presented with a table showing the top 10 cryptocurrencies by total volume across all markets in the last 24 hours. 
+![Landing page](screenshots/landing.png)
 
 After login, the user is presented with the account summary page "Your Portfolio" which shows the cryptocurrencies he/she has, the current value of each cryptocurrency, the amount of shares of each cryptocurrency he/she has and the total value of all cryptocurrencies. 
+![Your Portfolio page](screenshots/Your Portfolio.png)
 
 The user can navigate to the "Your Wallet" page and view the data of each cryptocurrency he/she has. 
+![Your Wallet page](screenshots/Your Wallet.png)
 
 To manage the account, navigate to "Manage Your Account" to add or remove cryptocurrency. 
+![Manage Your Account page](screenshots/Manage Your Account.png)
 
 ### Prerequisites
 
