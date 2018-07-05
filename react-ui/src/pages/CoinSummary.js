@@ -142,7 +142,7 @@ class CoinSummary extends Component {
 							<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						</div>
 					</div>
-				</BrowserRouter
+				</BrowserRouter>
 			)
 	}
 }
