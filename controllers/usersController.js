@@ -77,6 +77,7 @@ module.exports = {
 				CryptocurrencyId: req.body.data.selectedCoinId
 			}
 		}).then(result => {
+			console.log("1", result)
 			if (result.length == 0) {
 				db.UserCryptocurrency.create({
 					UserId: req.body.data.userId,

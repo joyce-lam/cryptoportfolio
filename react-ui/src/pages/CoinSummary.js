@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import IndividualCoin from "../components/IndividualCoin";
 import CoinList	from "../components/CoinList";
@@ -142,7 +143,7 @@ class CoinSummary extends Component {
 								<Icon size={32} icon={play3} id="arrow-icon" />
 							</div>
 							<div className="col-xs-7 col-sm-7 col-md-7">
-								<a href="/home"><h3>Back to Your Portfolio</h3></a>
+								<Link to="/home"><h3>Back to Your Portfolio</h3></Link>
 							</div>
 							<div className="col-xs-1 col-sm-1 col-md-2"></div>
 						</div>
