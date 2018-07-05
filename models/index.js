@@ -9,10 +9,10 @@ var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
 if (process.env.JAWSDB_URL) {
-    var sequelize = new Sequelize(process.env.JAWSDB_URL,{ operatorsAliases: false });
+    var sequelize = new Sequelize(process.env.JAWSDB_URL);
 } else {
     if (process.env.LOCALDB_URL) {
-        var sequelize = new Sequelize(process.env.LOCALDB_URL,{ operatorsAliases: false });
+        var sequelize = new Sequelize(process.env.LOCALDB_URL);
     } else {
 
         if (config.use_env_variable) {
