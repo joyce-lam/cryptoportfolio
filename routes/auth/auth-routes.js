@@ -1,110 +1,33 @@
 const express = require("express");
 const router = new express.Router();
 const path = require("path");
-const validator = require('validator');
+const validator = require("validator");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
-
-
-// //local auth signup
-// router.post("/signup", (req, res, next) => {
-//   passport.authenticate("local-signup", (err, user, info) => {
-//     if (err) {
-//       return next(err);
-//     }
-
-//     if(!user) {
-//       return res.redirect("/");
-//     }
-
-//     req.login(user, (err) => {
-//       if (err) {
-//         return next(err);
-//       }
-    
-//       res.cookie("user_id", req.user.dataValues.id);
-//       res.cookie("user_name", req.user.dataValues.userName);
-//       return res.redirect("/")
-//     })
-//   }) (req, res, next);
-// });
-
-// //local auth sign in
-// router.post("/signin", (req, res, next) => {
-//   passport.authenticate("local-signin", (err, user, info) => {
-//     if (err) {
-//       return next(err);
-//     }
-
-//     if(!user) {
-//       return res.redirect("/");
-//     }
-
-//     req.login(user, (err) => {
-//       if (err) {
-//         return next(err);
-//       }
-      
-//       res.cookie("user_id", req.user.id);
-//       res.cookie("user_name", req.user.userName);
-//       return res.redirect("/")
-//     })
-//   }) (req, res, next);
-// });
-
-// //auth with google
-// router.get("/google",
-//     passport.authenticate("google", {
-//         scope: ["profile", "email"]
-//     })
-// );
-
-// //auth google callback
-// router.get("/google/callback", passport.authenticate('google'), function(req, res) {
-//     res.cookie("user_id", req.user.dataValues.id);
-//     res.cookie("user_name", req.user.dataValues.userName);
-//     return res.redirect("/");
-// });
-
-// //auth with facebook
-// router.get("/facebook",
-//     passport.authenticate("facebook", {
-//         scope: ["public_profile", "email"]
-//     })
-// );
-
-// //auth facebook callback
-// router.get("/facebook/callback", passport.authenticate('facebook'), function(req, res) {
-//     res.cookie("user_id", req.user.dataValues.id);
-//     res.cookie("user_name", req.user.dataValues.userName);
-//     return res.redirect("/");
-
-// });
 
 
 function validateSignupForm(payload) {
   const errors = {};
   let isFormValid = true;
-  let message = '';
+  let message = "";
 
-  if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
+  if (!payload || typeof payload.email !== "string" || !validator.isEmail(payload.email)) {
     isFormValid = false;
-    errors.email = 'Please provide a correct email address.';
+    errors.email = "Please provide a correct email address.";
   }
 
-  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 8) {
+  if (!payload || typeof payload.password !== "string" || payload.password.trim().length < 8) {
     isFormValid = false;
-    errors.password = 'Password must have at least 8 characters.';
+    errors.password = "Password must have at least 8 characters.";
   }
 
-  if (!payload || typeof payload.name !== 'string' || payload.name.trim().length === 0) {
+  if (!payload || typeof payload.name !== "string" || payload.name.trim().length === 0) {
     isFormValid = false;
-    errors.name = 'Please provide your name.';
+    errors.name = "Please provide your name.";
   }
 
   if (!isFormValid) {
-    message = 'Check the form for errors.';
+    message = "Check the form for errors.";
   }
 
   return {
@@ -117,20 +40,20 @@ function validateSignupForm(payload) {
 function validateLoginForm(payload) {
   const errors = {};
   let isFormValid = true;
-  let message = '';
+  let message = "";
 
-  if (!payload || typeof payload.email !== 'string' || payload.email.trim().length === 0) {
+  if (!payload || typeof payload.email !== "string" || payload.email.trim().length === 0) {
     isFormValid = false;
-    errors.email = 'Please provide your email address.';
+    errors.email = "Please provide your email address.";
   }
 
-  if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
+  if (!payload || typeof payload.password !== "string" || payload.password.trim().length === 0) {
     isFormValid = false;
-    errors.password = 'Please provide your password.';
+    errors.password = "Please provide your password.";
   }
 
   if (!isFormValid) {
-    message = 'Check the form for errors.';
+    message = "Check the form for errors.";
   }
 
   return {
@@ -140,7 +63,7 @@ function validateLoginForm(payload) {
   };
 }
 
-router.post('/signup', (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const validationResult = validateSignupForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -151,34 +74,34 @@ router.post('/signup', (req, res, next) => {
   }
 
 
-  return passport.authenticate('local-signup', (err) => {
+  return passport.authenticate("local-signup", (err) => {
     if (err) {
-      if (err.name === 'DatabaseError' && err.code === 11000) {
+      if (err.name === "DatabaseError" && err.code === 11000) {
         // the 11000 Mongo code is for a duplication email error
         // the 409 HTTP status code is for conflict error
         return res.status(409).json({
           success: false,
-          message: 'Check the form for errors.',
+          message: "Check the form for errors.",
           errors: {
-            email: 'This email is already taken.'
+            email: "This email is already taken."
           }
         });
       }
 
       return res.status(400).json({
         success: false,
-        message: 'Could not process the form.'
+        message: "Could not process the form."
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: 'You have successfully signed up! Now you should be able to log in.'
+      message: "You have successfully signed up! Now you should be able to log in."
     });
   })(req, res, next);
 });
 
-router.post('/login', (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const validationResult = validateLoginForm(req.body);
   if (!validationResult.success) {
     return res.status(400).json({
@@ -189,9 +112,9 @@ router.post('/login', (req, res, next) => {
   }
 
 
-  return passport.authenticate('local-login', (err, token, userData) => {
+  return passport.authenticate("local-login", (err, token, userData) => {
     if (err) {
-      if (err.name === 'IncorrectCredentialsError') {
+      if (err.name === "IncorrectCredentialsError") {
         return res.status(400).json({
           success: false,
           message: err.message
@@ -200,14 +123,14 @@ router.post('/login', (req, res, next) => {
 
       return res.status(400).json({
         success: false,
-        message: 'Could not process the form.'
+        message: "Could not process the form."
       });
     }
 
 
     return res.json({
       success: true,
-      message: 'You have successfully logged in!',
+      message: "You have successfully logged in!",
       token,
       user: userData
     });

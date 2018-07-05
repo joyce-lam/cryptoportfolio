@@ -62,3 +62,63 @@ INSERT INTO crypto_db.UserCryptocurrencies (share, CryptocurrencyId, UserId, cre
 (1, 2, 1, "2018-06-01 00:00:00", "2018-06-01 00:00:00"),
 (0.5, 3, 1, "2018-06-01 00:00:00", "2018-06-01 00:00:00"),
 (2, 4, 1, "2018-06-01 00:00:00", "2018-06-01 00:00:00");
+
+
+INSERT INTO crypto_db.Cryptocurrencies (name, symbol, imageUrl) VALUES 
+("Bitcoin", "BTC", "www.cryptocompare.com/media/19633/btc.png"),
+("Ethereum", "ETH", "www.cryptocompare.com/media/20646/eth_logo.png"),
+("EOS", "EOS", "www.cryptocompare.com/media/1383652/eos_1.png"),
+("Bitcoin Cash", "BCH", "www.cryptocompare.com/media/1383919/12-bitcoin-cash-square-crop-small-grn.png"),
+("Litecoin", "LTH", "www.cryptocompare.com/media/19782/litecoin-logo.png"),
+("Ethereum Classic", "ETC", "www.cryptocompare.com/media/33752295/etc_new.png"),
+("XRP", "XRP", "www.cryptocompare.com/media/33842953/xrp_new.png"),
+("QTUM", "QTUM", "www.cryptocompare.com/media/1383382/qtum.png"),
+("Dash", "Dash", "www.cryptocompare.com/media/33842920/dash.png"),
+("Tronix", "TRX", "www.cryptocompare.com/media/12318089/trx.png"),
+("Ontology", "ONT", "www.cryptocompare.com/media/30001663/ont.jpg"),
+("Vechain", "VEN", "www.cryptocompare.com/media/12318129/ven.png"),
+("Bytom", "BTM", "www.cryptocompare.com/media/1383996/btm.png"),
+("NEO", "NEO", "www.cryptocompare.com/media/1383858/neo.jpg"),
+("Cardano", "ADA", "www.cryptocompare.com/media/12318177/ada.png"),
+("IOTA", "IOT", "www.cryptocompare.com/media/1383540/iota_logo.png"),
+("Binance Coin", "BNB", "www.cryptocompare.com/media/1383947/bnb.png"),
+("Monero", "XMR", "www.cryptocompare.com/media/19969/xmr.png"),
+("Nebulas", "NAS", "www.cryptocompare.com/media/20780653/nas.png"),
+("ZCash", "ZEC", "www.cryptocompare.com/media/351360/zec.png"),
+("Huobi Token", "HT", "www.cryptocompare.com/media/27010813/ht.png"),
+("BiboxCoin", "BIX", "www.cryptocompare.com/media/27010664/bix.png"),
+("ICON Project", "ICX", "www.cryptocompare.com/media/12318192/icx.png"),
+("Stellar", "XLM", "www.cryptocompare.com/media/20696/str.png"),
+("Mithril", "MITH", "www.cryptocompare.com/media/30002012/mith.jpg"),
+("Theta", "THETA", "www.cryptocompare.com/media/27010450/theta.png"),
+("Hshare", "HSR", "www.cryptocompare.com/media/12318137/hsr.png"),
+("Waves", "WAVES", "www.cryptocompare.com/media/27010639/waves2.png"),
+("Monaco", "MCO", "www.cryptocompare.com/media/1383653/mco.jpg"),
+("Cortex", "CTXC", "www.cryptocompare.com/media/30002149/ctxc.png"),
+("IOS token", "IOST", "www.cryptocompare.com/media/27010459/iost.png"),
+("Pundi X", "NPXS", "www.cryptocompare.com/media/27010505/pxs.png"),
+("True USD", "TUSD", "www.cryptocompare.com/media/30001972/tusd.png"),
+("OmiseGo", "OMG", "www.cryptocompare.com/media/1383814/omisego.png"),
+("CyberMiles", "CMT", "www.cryptocompare.com/media/30002257/cmt.png"),
+("Zilliqa", "ZIL", "www.cryptocompare.com/media/27010464/zil.png"),
+("Advanced Browsing Token", "ABT", "www.cryptocompare.com/media/14913683/abt.png"),
+("aelf", "ELF", "www.cryptocompare.com/media/20780600/elf.png"),
+("Bitcoin Gold", "BTG", "www.cryptocompare.com/media/27011062/btg.png"),
+("Odyssey", "OCN", "www.cryptocompare.com/media/27010448/ocn.png"),
+("APIS", "APIS", "www.cryptocompare.com/media/33957383/apis.png"),
+("NEM", "XEM", "www.cryptocompare.com/media/20490/xem.png"),
+("Siacoin", "SC", "www.cryptocompare.com/media/20726/siacon-logo.png"),
+("Ox", "ZRX", "www.cryptocompare.com/media/1383799/zrx.png"),
+("All Sports Coin", "SOC", "www.cryptocompare.com/media/27010918/soc.png"),
+("Status Network Token", "SNT", "www.cryptocompare.com/media/1383568/snt.png"),
+("Lisk", "LSK", "www.cryptocompare.com/media/27011060/lsk.png"),
+("Civic", "CVC", "www.cryptocompare.com/media/1383611/cvc.png"),
+("Achain", "ACT", "www.cryptocompare.com/media/16746576/act.png"),
+("Decentraland", "MANA", "www.cryptocompare.com/media/1383903/mana.png");
+
+
+
+
+
+
+

@@ -15,16 +15,19 @@ module.exports = {
 				attributes: ["id", "name", "symbol"]
 			}]
 		}).then(dbUserCrypto => {
-			let userCryptoArrayWithShares = [];
-			dbUserCrypto.forEach((one, ind) => {
-				let coinObj = {};
-				coinObj["cryptoId"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.id;
-				coinObj["cryptoName"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.name;
-				coinObj["cryptoSymbol"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.symbol;
-    			coinObj["shares"] = dbUserCrypto[ind].dataValues.share;
-    			userCryptoArrayWithShares.push(coinObj);
-			})
-			return res.json(userCryptoArrayWithShares);
+			if (dbUserCrypto.length != 0) {
+				let userCryptoArrayWithShares = [];
+				dbUserCrypto.forEach((one, ind) => {
+					let coinObj = {};
+					coinObj["cryptoId"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.id;
+					coinObj["cryptoName"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.name;
+					coinObj["cryptoSymbol"] = dbUserCrypto[ind].dataValues.Cryptocurrency.dataValues.symbol;
+	    			coinObj["shares"] = dbUserCrypto[ind].dataValues.share;
+	    			userCryptoArrayWithShares.push(coinObj);
+				})
+				return res.json(userCryptoArrayWithShares);
+			}
+
 		}).catch(function(err) {
 			res.status(500).json(err);
 		})
@@ -39,25 +42,30 @@ module.exports = {
 			method: "GET",
 			json: true
 			}).then(result => {
-				let cryptoArr = req.query.coinArr.split(",");
-				let shares = req.query.shareArr.split(",");
-	      		let dataArray = [];
-	      		cryptoArr.forEach((one, ind) => {
-	      			let dataObj = {};
-	      			dataObj["key"] = one;
-	      			let valPerShare = result.DISPLAY[one].USD.PRICE;
-	      			valPerShare = valPerShare.split(" ");
-	      			valPerShare = valPerShare[1];
-	      			valPerShare = valPerShare.replace(",", "");
-	      			valPerShare = parseFloat(valPerShare).toFixed(2);
-	      			dataObj["currentPrice"] = valPerShare;
-	      			let val = valPerShare * parseInt(shares[ind]);
-	      			dataObj["value"] = val.toFixed(2);
-	      			dataArray.push(dataObj);
-	      		})    		
-	      		return dataArray;
+				if (result  != 0 ) {
+					let cryptoArr = req.query.coinArr.split(",");
+					let shares = req.query.shareArr.split(",");
+		      		let dataArray = [];
+		      		cryptoArr.forEach((one, ind) => {
+		      			let dataObj = {};
+		      			dataObj["key"] = one;
+		      			let valPerShare = result.DISPLAY[one].USD.PRICE;
+		      			valPerShare = valPerShare.split(" ");
+		      			valPerShare = valPerShare[1];
+		      			valPerShare = valPerShare.replace(",", "");
+		      			valPerShare = parseFloat(valPerShare).toFixed(2);
+		      			dataObj["currentPrice"] = valPerShare;
+		      			let val = valPerShare * parseInt(shares[ind]);
+		      			dataObj["value"] = val.toFixed(2);
+		      			dataArray.push(dataObj);
+		      		})    		
+		      		return dataArray;
+		      	}
+	      		
 			}).then(result => {
-				return res.json(result);
+				if (result != 0 ) {
+					return res.json(result);
+				}
 			}).catch(err => {
 				console.log(err);
 			})

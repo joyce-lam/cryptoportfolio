@@ -41,6 +41,7 @@ module.exports = {
 				optionObj["label"] = dbCrypto[ind].dataValues.name;
 				optionsArr.push(optionObj);
 			})
+			console.log(optionsArr)
 			return res.json(optionsArr);
 		}).catch(err => {
 			res.status(500).json(err);

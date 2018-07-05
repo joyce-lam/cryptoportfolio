@@ -7,7 +7,6 @@ const jwtSecret = require("../config/keys.js");
 
 module.exports = (req, res, next) => {
 
-    //console.log(req)
     let token;
     if (req.headers.authorization) {
         token = req.headers.authorization.split(" ")[1];
@@ -20,7 +19,6 @@ module.exports = (req, res, next) => {
     } else {
         return res.status(401).end();
     }
-
 
 
     return jwt.verify(token, jwtSecret.jwt.secret, (err, decoded) => {
@@ -41,30 +39,4 @@ module.exports = (req, res, next) => {
                 console.log(err);
             })
     });
-
-    // console.log("req", req)
-    // if (!req.headers.authorization) {
-    //     return res.status(401).end();
-    // }
-
-    // const token = req.headers.authorization.split(' ')[1];
-
-    // return jwt.verify(token, jwtSecret.jwt.secret, (err, decoded) => {
-    // if (err) { 
-    //     return res.status(401).end(); 
-    // }
-
-    // const userId = decoded.sub;
-
-    // return db.User.findOne({
-    //         where: {
-    //             id: userId
-    //         }
-    //     }).then(user => {
-    //         req.user = userId;
-    //         return next();
-    //     }).catch(err => {
-    //         console.log(err);
-    //     })
-    // });
 };
