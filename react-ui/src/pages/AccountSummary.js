@@ -1,4 +1,10 @@
 import React, { Component } from "react";
+import {
+    BrowserRouter,
+    Route,
+    Redirect,
+    Link
+} from "react-router-dom";
 
 import SummaryChart from "../components/SummaryChart";
 import CoinCard from "../components/CoinCard";
@@ -11,6 +17,19 @@ import Icon from "react-icons-kit";
 import {play3} from "react-icons-kit/icomoon/play3";
 import decode from "jwt-decode";
 
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props => (
+        Auth.isUserAuthenticated() ? (
+            <Component {...props} {...rest} />
+    ) : (
+            <Redirect to={{
+                pathname: '/',
+                state: { from: props.location }
+            }}/>
+        )
+    )}/>
+)
 
 class AccountSummary extends Component {
 	constructor(props) {
@@ -133,36 +152,49 @@ class AccountSummary extends Component {
 
 	render() {
 		return (
-				<div className="main">
-					<div className="row">
-						<div className="col-12 text-center" >
-							<h1 id="summary-head">Your Portfolio Summary</h1>
-						</div>
-					</div>
-					<div className="row" id="summary-card">
-						<div className="col-md-2"></div>
-						<div className="col-xs-12 col-sm-12 col-md-3">
-							<CoinCard heading="Total Amount" text={this.state.totalAmount} />
-						</div>
-						<div className="col-md-1"></div>
-						<div className="col-xs-12 col-sm-12 col-md-6">
-							<SummaryChart 
-								data={this.state.piechartData}
-								styles={this.styles}	
-							/>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-1"></div>
-						<div className="col-10">
-							<UserCoinTable 
-                                userId={this.state.userId}
-                                token={this.state.token}
-                            />
-						</div>
-						<div className="col-1"></div>
-					</div>
-				</div>
+                <BrowserRouter>
+    				<div className="main">
+    					<div className="row">
+    						<div className="col-12 text-center" >
+    							<h1 id="summary-head">Your Portfolio Summary</h1>
+    						</div>
+    					</div>
+    					<div className="row" id="summary-card">
+    						<div className="col-md-2"></div>
+    						<div className="col-xs-12 col-sm-12 col-md-3">
+    							<CoinCard heading="Total Amount" text={this.state.totalAmount} />
+    						</div>
+    						<div className="col-md-1"></div>
+    						<div className="col-xs-12 col-sm-12 col-md-6">
+    							<SummaryChart 
+    								data={this.state.piechartData}
+    								styles={this.styles}	
+    							/>
+    						</div>
+    					</div>
+    					<div className="row">
+    						<div className="col-1"></div>
+    						<div className="col-10">
+    							<UserCoinTable 
+                                    userId={this.state.userId}
+                                    token={this.state.token}
+                                />
+    						</div>
+    						<div className="col-1"></div>
+    					</div>
+    					<div className="row">
+    						<div className="col-xs-1 col-sm-1 col-md-2"></div>
+    						<div className="col-xs-3 col-sm-3 col-md-1 text-center">
+    							<Icon size={32} icon={play3} id="arrow-icon" />
+    						</div>
+    						<div className="col-xs-7 col-sm-7 col-md-7">
+                                <PrivateRoute exact path="/coins" component={CoinSummary} />
+    							<Link to="/coins"><h3>View Individual Cryptocurreny</h3></Link>
+    						</div>
+    						<div className="col-xs-1 col-sm-1 col-md-2"></div>
+    					</div>
+    				</div>
+                </BrowserRouter>
 
 			)
 	}
