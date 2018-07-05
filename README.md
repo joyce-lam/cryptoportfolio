@@ -1,7 +1,5 @@
 # CryptoPortfolio
 
-CryptoPortfolio is deployed on Heroku at: https://crypto--portfolio.herokuapp.com/
-
 Upon landing, an user is presented with a table showing the top 10 cryptocurrencies by total volume across all markets in the last 24 hours. 
 
 After login, the user is presented with the account summary page "Your Portfolio" which shows the cryptocurrencies he/she has, the current value of each cryptocurrency, the amount of shares of each cryptocurrency he/she has and the total value of all cryptocurrencies. 
