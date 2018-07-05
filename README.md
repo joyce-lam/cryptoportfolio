@@ -1,7 +1,7 @@
 # CryptoPortfolio
 
 Upon landing, an user is presented with a table showing the top 10 cryptocurrencies by total volume across all markets in the last 24 hours. 
-![Landing page](screenshots/Landing.png)
+![Landing page](screenshots/landing.png)
 
 ![Sidebar](screenshots/Sidebar.png)
 
