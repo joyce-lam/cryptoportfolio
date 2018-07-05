@@ -48,25 +48,11 @@ class AccountSummary extends Component {
 		this.getAccountInfo = this.getAccountInfo.bind(this);
     	this.getUserCoinData = this.getUserCoinData.bind(this);
 		this.getUserCoinVal = this.getUserCoinVal.bind(this);
-        //this.getProfile = this.getProfile.bind(this);
 	}
 
-	componentDidMount() {
-        console.log(this.props)
-        // this.getProfile()
+	componentDidMount() {   
         this.getAccountInfo(this.state.userId, this.state.token)
 	}
-
-    // getProfile() {
-    //     var token = Auth.getToken();
-    //     var profile = decode(token);
-
-    //     this.setState({
-    //       userId: profile.sub
-    //     });
-
-    //     this.getAccountInfo(profile.sub, token);
-    // }
 
     getAccountInfo = (userId, token) => {
     	API.getUserCrypto(userId, token)
