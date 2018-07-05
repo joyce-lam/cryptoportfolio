@@ -19,19 +19,6 @@ import {play3} from "react-icons-kit/icomoon/play3";
 import decode from "jwt-decode";
 
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={props => (
-        Auth.isUserAuthenticated() ? (
-            <Component {...props} {...rest} />
-    ) : (
-            <Redirect to={{
-                pathname: '/',
-                state: { from: props.location }
-            }}/>
-        )
-    )}/>
-)
-
 class AccountSummary extends Component {
 	constructor(props) {
 		super(props);
@@ -189,7 +176,6 @@ class AccountSummary extends Component {
     							<Icon size={32} icon={play3} id="arrow-icon" />
     						</div>
     						<div className="col-xs-7 col-sm-7 col-md-7">
-                                <PrivateRoute exact path="/coins" component={CoinSummary} />
     							<Link to="/coins"><h3>View Individual Cryptocurreny</h3></Link>
     						</div>
     						<div className="col-xs-1 col-sm-1 col-md-2"></div>
