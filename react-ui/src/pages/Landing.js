@@ -73,6 +73,11 @@ class Landing extends Component {
 		return (
 				<div>
 					<div className="main">
+						<div className="row">
+							<div className="col-12 text-center">
+								<h1 id="app-name">CryptoPortfolio</h1>
+							</div>
+						</div>
 						<div id="table-section">
 							<h1 id="table-head">Top 10 List</h1>
 							<h3 id="table-head2">Top 10 cryptocurrencies by total volume across all markets in the last 24 hours</h3>

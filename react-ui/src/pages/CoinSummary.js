@@ -97,7 +97,7 @@ class CoinSummary extends Component {
 					<div className="main">
 						<div className="row">					
 							<div className="col-xs-12 col-sm-12 col-md-12 text-center">
-								<h1>Your Wallet</h1>
+								<h1 id="summary-head">Your Wallet</h1>
 							</div>
 						</div>
 						<div className="row">

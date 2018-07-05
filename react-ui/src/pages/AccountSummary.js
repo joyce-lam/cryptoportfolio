@@ -128,7 +128,7 @@ class AccountSummary extends Component {
     				<div className="main">
     					<div className="row">
     						<div className="col-12 text-center" >
-    							<h1 id="summary-head">Your Portfolio Summary</h1>
+    							<h1 className="summary-head">Your Portfolio Summary</h1>
     						</div>
     					</div>
     					<div className="row" id="summary-card">

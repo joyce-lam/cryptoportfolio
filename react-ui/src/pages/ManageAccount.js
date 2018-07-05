@@ -26,7 +26,7 @@ class ManageAccount extends Component {
  			<div className="main">
 				<div className="row">
 					<div className="col-12 text-center">
-						<h1>Manage Your Wallet</h1>
+						<h1 id="summary-head">Manage Your Wallet</h1>
 					</div>
 				</div>
 				<div className="row">

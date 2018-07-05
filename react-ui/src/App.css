@@ -2,6 +2,11 @@
     font-family: 'Josefin Sans', sans-serif;
 }
 
+#app-name {
+    font-weight: 800;
+    font-size: 50px;
+}
+
 /*====================================*/
 /*sidebar*/
 .custom-sidebar-class {
