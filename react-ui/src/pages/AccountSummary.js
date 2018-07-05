@@ -6,6 +6,7 @@ import {
     Link
 } from "react-router-dom";
 
+import CoinSummary from "./CoinSummary";
 import SummaryChart from "../components/SummaryChart";
 import CoinCard from "../components/CoinCard";
 import UserCoinTable from "../components/UserCoinTable";
