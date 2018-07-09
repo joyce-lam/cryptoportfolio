@@ -1,8 +1,6 @@
 const db = require("../models");
 const Op = db.Sequelize.Op;
-const request = require("request");
-const rq = require("request-promise");
-
+const cryptoFuncObj = require("../cache/utils")
 
 module.exports = {
 	findAllCrypto: function(req, res) {
@@ -33,15 +31,9 @@ module.exports = {
 		})
 	}, 
 	findAllCryptoData: function(req, res) {
-		rq({
-    		url: `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${req.query.coinArr}&tsyms=USD`,
-			headers: {
-				 "Accept": "application/json",
-			     "Content-Type": "application/json"
-			},
-			method: "GET",
-			json: true
-			}).then(result => {
+		let coinArr = req.query.coinArr.split(",");
+		cryptoFuncObj.priceMultiFull(coinArr)
+			.then(result => {
 				if (result  != 0 ) {
 					let cryptoArr = req.query.coinArr.split(",");
 					let shares = req.query.shareArr.split(",");
