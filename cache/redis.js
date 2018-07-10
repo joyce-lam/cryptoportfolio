@@ -17,7 +17,7 @@ const wrapCache = (obj, ttl) => {
 		if (obj.hasOwnProperty(funcName)) {
 			const func = obj[funcName]
 			const wrappedFunc = cacheFunc(funcName, obj[funcName], ttl);
-			wrapped[funcName] = wrappedFunc
+			wrapped[funcName] = wrappedFunc;
 		}
 	}
 	return wrapped;
@@ -25,18 +25,18 @@ const wrapCache = (obj, ttl) => {
 
 
 const cacheFunc = (funcName, func, ttl) => {
-	return () => {
+	return function () {
 		const cacheKey = genCacheKey(funcName, arguments);
 
 		return client.getAsync(cacheKey)
 			.then(val => {
 				if (val !== null) {
-					return val;
+					return JSON.parse(val);
 				}
 
 				return func.apply(null, arguments)
 					.then(res => {
-						client.setex(cacheKey, ttl, res);
+						client.setexAsync(cacheKey, ttl, JSON.stringify(res));
 						return res;
 					})
 			})
@@ -46,10 +46,11 @@ const cacheFunc = (funcName, func, ttl) => {
 
 //generate cache key
 const genCacheKey = (funcName, funcArgs) => {
-	return {
+	return JSON.stringify({
 		funcName: funcName,
 		funcArgs: funcArgs
-	};
+	});
+	
 }
 
 module.exports = wrapCache;
