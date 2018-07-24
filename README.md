@@ -20,7 +20,7 @@ Cryptoportfolio was built and tested with NodeJS v8.9.2, MySQL 5.7.20, ReactJS v
 
 | NPM Package     | Version |
 | --------------- | ------- |
-| axois | 0.18.0|
+| axios | 0.18.0|
 | bcryptjs   | 2.4.3   |
 | body-parser     | 1.18.2  |
 | dotenv          | 5.0.1   |
